@@ -10,6 +10,9 @@ struct TILE_TYPE
 	bool	bPassible;				// Set to true if you can walk on this tile
 	bool	bTeleport;				// Set to true if this tile will cause you to teleport
 	bool	bChangeMap;				// Set to true if walking on this tile will cause you to change map
+	int		*nTargetMap;
+	int		nTargetY;
+	int		nTargetX;
 };
 
 // Global array used to define all tile types used in the game

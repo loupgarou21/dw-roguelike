@@ -55,6 +55,8 @@ class cPlayer
 		bool bRainbowDrop;		// Keep track of whether or not we've used the rainbow drop.
 		bool bPrincessSaved;	// Keep track of whether or not we've saved the princess
 		bool bLetsPlay;
+		int nOutsideY;
+		int nOutsideX;
 };
 
 
