@@ -46,6 +46,8 @@ class cPlayer
 		int *nTargetActorList;
 		int nTargetChests;
 		int *nTargetChestList;
+		int nTargetStairs;
+		STAIRS *nTargetStairList;
 		int nLightRadius;
 		bool bInCave;
 		bool bTransition;		// Keep track of whether or not we just transitioned to a new map.

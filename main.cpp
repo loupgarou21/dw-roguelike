@@ -14,6 +14,7 @@
 
 // Map Inclusions
 #include "map_tiles.h"
+#include "map_world.h"
 #include "map_brecconary.h"
 #include "map_cantlin.h"
 #include "map_charlock_castle.h"
@@ -27,13 +28,13 @@
 #include "map_southern_shrine.h"
 #include "map_swamp_cave.h"
 #include "map_tantegel.h"
-#include "map_world.h"
+
 
 // Other inclusions
 #include "window_layouts.h"
+#include "stairs.h"
 #include "character.h"
 #include "equipment.h"
-
 
 // Global Map Dimensions
 // As a note, don't confuse the "Global Map" with the "Overworld Map"
@@ -581,13 +582,7 @@ void ChangeMap( WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player, int nT
 		Player->nTargetX = 0;
 		Player->nTargetY = 10;
 		LoadHauksness(Player);
-	} else if( Player->nTargetMap == *nErdricksCaveMapArray )
-	{
-		// Exit Erdrick's Cave
-		Player->nTargetX = 28;
-		Player->nTargetY = 12;
-		LoadWorldMap(Player);
-	} else if(nTileValue == cnTileSwampCave1)
+	}  else if(nTileValue == cnTileSwampCave1)
 	{
 		// If we're trying to step on the Northern swamp Cave tile, let's go to the northern swamp cave stairs
 		Player->nTargetX = 0;
@@ -599,54 +594,12 @@ void ChangeMap( WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player, int nT
 		Player->nTargetX = 0;
 		Player->nTargetY = 29;
 		LoadSwampCave(Player);
-	} else if( Player->nTargetMap == *nSwampCaveMapArray && nPlayerY == 7 && nPlayerX == 14 )
-	{
-		// Exit swamp Cave at the northern entrance
-		Player->nTargetX = 104;
-		Player->nTargetY = 44;
-		LoadWorldMap(Player);
-	} else if( Player->nTargetMap == *nSwampCaveMapArray && nPlayerY == 36 && nPlayerX == 14)
-	{
-		// Exit swamp Cave at the southern entrance
-		Player->nTargetX = 104;
-		Player->nTargetY = 49;
-		LoadWorldMap(Player);
 	} else if(nTileValue == cnTileRockMountainCave)
 	{
 		// Enter the rock mountain cave
 		Player->nTargetX = 0;
 		Player->nTargetY = 7;
 		LoadRockMountainCave(Player);
-	} else if( Player->nTargetMap == *nRockMountainCaveMapArray )
-	{
-		// Exit Rock Mountain Cave
-		Player->nTargetX = 29;
-		Player->nTargetY = 57;
-		LoadWorldMap(Player);
-	} else if( Player->nTargetMap == *nWorldMapArray && nPlayerY == 8 && nPlayerX == 95 )
-	{
-		// if we're trying to step on the Northern Shrine tile, let's go to Northern Shrine
-		Player->nTargetX = 4;
-		Player->nTargetY = 9;
-		LoadNorthernShrine(Player);
-	} else if( Player->nTargetMap == *nNorthernShrineMapArray )
-	{
-		// Exit Northern Shrine
-		Player->nTargetX = 81;
-		Player->nTargetY = 1;
-		LoadWorldMap(Player);
-	} else if( Player->nTargetMap == *nWorldMapArray && nPlayerY == 116 && nPlayerX == 122 )
-	{
-		// if we're trying to step on the Southern Shrine tile, let's go to Southern Shrine
-		Player->nTargetX = 0;
-		Player->nTargetY = 4;
-		LoadSouthernShrine(Player);
-	} else if( Player->nTargetMap == *nSouthernShrineMapArray )
-	{
-		// Exit Southern Shrine
-		Player->nTargetX = 108;
-		Player->nTargetY = 109;
-		LoadWorldMap(Player);
 	} else if(nTileValue == cnTileRimuldar)
 	{
 		// if we're trying to step on the rimuldar tile, let's go to rimuldar
@@ -659,6 +612,18 @@ void ChangeMap( WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player, int nT
 		Player->nTargetX =15;
 		Player->nTargetY = 0;
 		LoadCantlin(Player);
+	} else if( Player->nTargetMap == *nWorldMapArray )
+	{
+		LoadWorldMap(Player);
+	} else if( Player->nTargetMap == *nNorthernShrineMapArray )
+	{
+		LoadNorthernShrine(Player);
+	} else if( Player->nTargetMap == *nSouthernShrineMapArray )
+	{
+		LoadSouthernShrine(Player);
+	} else if( Player->nTargetMap == *nTantegelMapArray )
+	{
+		LoadTantegelMap(Player);
 	}
 
 	// Actually load the map data
@@ -675,6 +640,8 @@ void LoadBrecconaryMap( cPlayer *Player )
 	Player->nTargetActorList = *nBrecconaryActorList;
 	Player->nTargetChests = cnBrecconaryChests;
 	Player->nTargetChestList = *nBrecconaryChestList;
+	Player->nTargetStairs = cnBrecconaryStairs;
+	Player->nTargetStairList = nBrecconaryStairArray;
 }
 
 void LoadCantlin( cPlayer *Player )
@@ -686,6 +653,8 @@ void LoadCantlin( cPlayer *Player )
 	Player->nTargetActorList = *nCantlinActorList;
 	Player->nTargetChests = cnCantlinChests;
 	Player->nTargetChestList = *nCantlinChestList;
+	Player->nTargetStairs = cnCantlinStairs;
+	Player->nTargetStairList = nCantlinStairArray;
 }
 
 void LoadCharlockCastle( cPlayer *Player )
@@ -711,6 +680,8 @@ void LoadErdricksCave( cPlayer *Player )
 	Player->nTargetActorList = *nErdricksCaveActorList;
 	Player->nTargetChests = cnErdricksCaveChests;
 	Player->nTargetChestList = *nErdricksCaveChestList;
+	Player->nTargetStairs = cnErdricksCaveStairs;
+	Player->nTargetStairList = nErdricksCaveStairArray;
 	Player->bInCave = true;
 }
 
@@ -734,6 +705,8 @@ void LoadHauksness( cPlayer *Player )
 	Player->nTargetActorList = *nHauksnessActorList;
 	Player->nTargetChests = cnHauksnessChests;
 	Player->nTargetChestList = *nHauksnessChestList;
+	Player->nTargetStairs = cnHauksnessStairs;
+	Player->nTargetStairList = nHauksnessStairArray;
 }
 
 void LoadKol( cPlayer *Player )
@@ -745,6 +718,8 @@ void LoadKol( cPlayer *Player )
 	Player->nTargetActorList = *nKolActorList;
 	Player->nTargetChests = cnKolChests;
 	Player->nTargetChestList = *nKolChestList;
+	Player->nTargetStairs = cnKolStairs;
+	Player->nTargetStairList = nKolStairArray;
 }
 
 void LoadNorthernShrine( cPlayer *Player )
@@ -756,6 +731,8 @@ void LoadNorthernShrine( cPlayer *Player )
 	Player->nTargetActorList = *nNorthernShrineActorList;
 	Player->nTargetChests = cnNorthernShrineChests;
 	Player->nTargetChestList = *nNorthernShrineChestList;
+	Player->nTargetStairs = cnNorthernShrineStairs;
+	Player->nTargetStairList = nNorthernShrineStairArray;
 }
 
 void LoadRimuldar( cPlayer *Player )
@@ -767,6 +744,8 @@ void LoadRimuldar( cPlayer *Player )
 	Player->nTargetActorList = *nRimuldarActorList;
 	Player->nTargetChests = cnRimuldarChests;
 	Player->nTargetChestList = *nRimuldarChestList;
+	Player->nTargetStairs = cnRimuldarStairs;
+	Player->nTargetStairList = nRimuldarStairArray;
 }
 
 void LoadRockMountainCave( cPlayer *Player )
@@ -778,6 +757,8 @@ void LoadRockMountainCave( cPlayer *Player )
 	Player->nTargetActorList = *nRockMountainCaveActorList;
 	Player->nTargetChests = cnRockMountainCaveChests;
 	Player->nTargetChestList = *nRockMountainCaveChestList;
+	Player->nTargetStairs = cnRockMountainCaveStairs;
+	Player->nTargetStairList = nRockMountainCaveStairArray;
 	Player->bInCave = true;
 }
 
@@ -790,6 +771,8 @@ void LoadSouthernShrine( cPlayer *Player )
 	Player->nTargetActorList = *nSouthernShrineActorList;
 	Player->nTargetChests = cnSouthernShrineChests;
 	Player->nTargetChestList = *nSouthernShrineChestList;
+	Player->nTargetStairs = cnSouthernShrineStairs;
+	Player->nTargetStairList = nSouthernShrineStairArray;
 }
 
 void LoadSwampCave( cPlayer *Player )
@@ -801,6 +784,8 @@ void LoadSwampCave( cPlayer *Player )
 	Player->nTargetActorList = *nSwampCaveActorList;
 	Player->nTargetChests = cnSwampCaveChests;
 	Player->nTargetChestList = *nSwampCaveChestList;
+	Player->nTargetStairs = cnSwampCaveStairs;
+	Player->nTargetStairList = nSwampCaveStairArray;
 	Player->bInCave = true;
 }
 
@@ -813,6 +798,8 @@ void LoadTantegelMap( cPlayer *Player )
 	Player->nTargetActorList = *nTantegelActorList;
 	Player->nTargetChests = cnTantegelChests;
 	Player->nTargetChestList = *nTantegelChestList;
+	Player->nTargetStairs = cnTantegelStairs;
+	Player->nTargetStairList = nTantegelStairArray;
 
 	// If the player has already left the throne room at least once, get rid of starting stuff
 	if(Player->nProgress > 0)
@@ -837,6 +824,8 @@ void LoadWorldMap( cPlayer *Player )
 	Player->nTargetActorList = *nWorldActorList;
 	Player->nTargetChests = cnWorldChests;
 	Player->nTargetChestList = *nWorldChestList;
+	Player->nTargetStairs = cnWorldStairs;
+	Player->nTargetStairList = nWorldStairArray;
 	Player->bInCave = false;
 }
 
@@ -847,375 +836,14 @@ void TeleportPlayer(cPlayer *Player, int nTileValue)
 	int nPlayerX = nCameraX + Player->sHero.nPositionX;
 	int nPlayerY = nCameraY + Player->sHero.nPositionY;
 
-	if( Player->nTargetMap == *nTantegelMapArray && nPlayerY == 58 && nPlayerX == 21 )
-	{
-		// If the player is leaving the throne room for the first time, advance to the next level of progress
-		// We're being a bit of a jerk here and removing chests the player didn't take,
-		// we're just following the original game mechanics.
-		if( Player->nProgress == 0 )
-		{
-			Player->nProgress = 1;
-			nWorldMapArray[57][17] = cnTileBrickFloor;		// This shouldn't be needed, but adding as essentially a fail-safe if the player somehow manages to get past the door without opening it...
-			nGlobalItemArray[54][17] = 0;
-			nGlobalItemArray[54][18] = 0;
-			nGlobalItemArray[51][19] = 0;
-		}
-		// Go from the throne room to the courtyard in Tantegel
-		nCameraX = 7;
-		nCameraY = 7;
-	} else if( Player->nTargetMap == *nTantegelMapArray && nPlayerY == 14 && nPlayerX == 21 )
-	{
-		// If we're in Tantegel, and we're standing on the upstairs
-		// load the Tantegel Throne Room
-		nCameraX = 7;
-		nCameraY = 51;
-	} else if( Player->nTargetMap == *nTantegelMapArray && nPlayerY == 36 && nPlayerX == 43 )
-	{
-		// If we're in Tantegel, and we're standing on the down stairs
-		// load the cellar
-		nCameraX = 23;
-		nCameraY = 48;
-	} else if( Player->nTargetMap == *nTantegelMapArray && nPlayerY == 55 && nPlayerX == 37)
-	{
-		// Go from the tantegel cellar to the main castle
-		nCameraX = 29;
-		nCameraY = 29;
-	} else if( (Player->nTargetMap == *nRockMountainCaveMapArray || Player->nTargetMap == *nErdricksCaveMapArray) && nTileValue == cnTileStairDown )
-	{
-		// In Rock Mountain Cave or Erdrick's Grave, go to B2
-		nCameraY += 21;
-	} else if( (Player->nTargetMap == *nRockMountainCaveMapArray || Player->nTargetMap == *nErdricksCaveMapArray) && nTileValue == cnTileStairUp)
-	{
-		// In Rock Mountain Cave or Erdrick's Grave, go to B1
-		nCameraY -= 21;
-	} else if(nTileValue == cnTileHouseIn)
+	if(nTileValue == cnTileHouseIn)
 	{
 		nCameraY += 44;
 	} else if(nTileValue == cnTileHouseOut)
 	{
 		nCameraY -= 44;
-	} else if( Player->nTargetMap == *nGarinhamMapArray )
-	{ 
-		// Grave of garin doesn't have easy teleport points as stairs don't match up easily.
-		// We'll do this one pretty manually
-		if( nPlayerY == 7 && nPlayerX == 33 )
-		{
-			// Enter grave of garin
-			nCameraX = 6;
-			nCameraY = 79;
-			Player->bInCave = true;
-		} else if( nPlayerY == 86 && nPlayerX == 20 )
-		{
-			// Go from B1 back to Garinham
-			nCameraX = 19;
-			nCameraY = 0;
-			Player->bInCave = false;
-		} else if( nPlayerY == 93 && nPlayerX == 15 )
-		{
-			// Go from B1 to B2
-			nCameraX = 11;
-			nCameraY = 97;
-		} else if( nPlayerY == 104 && nPlayerX == 25 )
-		{
-			// Go from B2 to B1
-			nCameraX = 1;
-			nCameraY = 86;
-		} else if( nPlayerY == 103 && nPlayerX == 15 )
-		{
-			// Go from B2 to B3 Stair B
-			nCameraX = 14;
-			nCameraY = 117;
-		} else if( nPlayerY == 124 && nPlayerX == 28 )
-		{
-			// Go from B3 to B2 Stair B
-			nCameraX = 1;
-			nCameraY = 96;
-		} else if( nPlayerY == 103 && nPlayerX == 26 )
-		{
-			// Go from B2 to B3 Stair C
-			nCameraX = 18;
-			nCameraY = 117;
-		} else if( nPlayerY == 124 && nPlayerX == 32 )
-		{
-			// Go from B3 to B2 Stair C
-			nCameraX = 12;
-			nCameraY = 96;
-		} else if( nPlayerY == 108 && nPlayerX == 19 )
-		{
-			// Go from B2 to B3 Stair D
-			nCameraX = 6;
-			nCameraY = 127;
-		} else if( nPlayerY == 134 && nPlayerX == 20 )
-		{
-			// Go from B3 to B2 Stair D
-			nCameraX = 5;
-			nCameraY = 101;
-		} else if( nPlayerY == 112 && nPlayerX == 15 )
-		{
-			// Go from B2 to B3 Stair E
-			nCameraX = 2;
-			nCameraY = 133;
-		} else if( nPlayerY == 140 && nPlayerX == 16 )
-		{
-			// Go from B3 to B2 Stair E
-			nCameraX = 1;
-			nCameraY = 105;
-		} else if( nPlayerY == 112 && nPlayerX == 26 )
-		{
-			// Go from B2 to B3 Stair F
-			nCameraX = 18;
-			nCameraY = 129;
-		} else if( nPlayerY == 136 && nPlayerX == 32 )
-		{
-			// Go from B3 to B2 Stair F
-			nCameraX = 12;
-			nCameraY = 105;
-		} else if( nPlayerY == 128 && nPlayerX == 23 )
-		{
-			// Go from B3 to B4 Stair G
-			nCameraX = 0;
-			nCameraY = 147;
-		} else if( nPlayerY == 154 && nPlayerX == 14 )
-		{
-			// Go from B4 to B3 Stair G
-			nCameraX = 9;
-			nCameraY = 121;
-		} else if( nPlayerY == 132 && nPlayerX == 24 )
-		{
-			// Go from B3 to B4 Stair H
-			nCameraX = 5;
-			nCameraY = 147;
-		} else if( nPlayerY == 154 && nPlayerX == 19 )
-		{
-			// Go from B4 to B3 Stair H
-			nCameraX = 10;
-			nCameraY = 125;
-		}
-	} else if( Player->nTargetMap == *nCharlockCastleMapArray )
-	{
-		// Charlock Castle doesn't have easy teleport points either, as stairs don't match up easily.
-		// We're going to have to be pretty manual here
-		if( nPlayerY == 8 && nPlayerX == 23 )
-		{
-			// Go from F1 to B1 Stair A
-			nCameraY = 0;
-			nCameraX = 55;
-			Player->bInCave = true;
-		} else if( nPlayerY == 7 && nPlayerX == 69 )
-		{
-			// Go from B1 to F1 stair A
-			nCameraY = 1;
-			nCameraX = 9;
-			Player->bInCave = false;
-		} else if( nPlayerY == 21 && nPlayerX == 17 )
-		{
-			// Go from F1 to B1 Stair B
-			nCameraY = 13;
-			nCameraX = 54;
-		} else if( nPlayerY == 20 && nPlayerX == 68 )
-		{
-			// Go from B1 to F1 stair B
-			nCameraY = 14;
-			nCameraX = 3;
-		} else if( nPlayerY == 21 && nPlayerX == 28 )
-		{
-			// Go from F1 to B1 Stair C
-			nCameraY = 15;
-			nCameraX = 63;
-		} else if( nPlayerY == 22 && nPlayerX == 77 )
-		{
-			// Go from B1 to F1 stair C
-			nCameraY = 14;
-			nCameraX = 14;
-		} else if( nPlayerY == 8 && nPlayerX == 75 )
-		{
-			// Go from B1 to B2 Stair D
-			nCameraY = 34;
-			nCameraX = 8;
-		} else if( nPlayerY == 41 && nPlayerX == 22 )
-		{
-			// Go from B2 to B1 stair D
-			nCameraY = 1;
-			nCameraX = 61;
-		} else if( nPlayerY == 11 && nPlayerX == 62 )
-		{
-			// Go from B1 to B2 Stair E
-			nCameraY = 34;
-			nCameraX = 0;
-		} else if( nPlayerY == 41 && nPlayerX == 14 )
-		{
-			// Go from B2 to B1 stair E
-			nCameraY = 4;
-			nCameraX = 48;
-		} else if( nPlayerY == 14 && nPlayerX == 73 )
-		{
-			// Go from B1 to B2 Stair F
-			nCameraY = 38;
-			nCameraX = 4;
-		} else if( nPlayerY == 45 && nPlayerX == 18 )
-		{
-			// Go from B2 to B1 stair F
-			nCameraY = 7;
-			nCameraX = 59;
-		} else if( nPlayerY == 14 && nPlayerX == 79 )
-		{
-			// Go from B1 to B2 Stair G
-			nCameraY = 42;
-			nCameraX = 9;
-		} else if( nPlayerY == 49 && nPlayerX == 23 )
-		{
-			// Go from B2 to B1 stair G
-			nCameraY = 7;
-			nCameraX = 65;
-		} else if( nPlayerY == 16 && nPlayerX == 74 )
-		{
-			// Go from B1 to B2 Stair H
-			nCameraY = 43;
-			nCameraX = 8;
-		} else if( nPlayerY == 50 && nPlayerX == 22 )
-		{
-			// Go from B2 to B1 stair H
-			nCameraY = 9;
-			nCameraX = 60;
-		} else if( nPlayerY == 21 && nPlayerX == 62 )
-		{
-			// Go from B1 to B2 Stair I
-			nCameraY = 35;
-			nCameraX = 0;
-		} else if( nPlayerY == 42 && nPlayerX == 14 )
-		{
-			// Go from B2 to B1 stair I
-			nCameraY = 14;
-			nCameraX = 48;
-		} else if( nPlayerY == 26 && nPlayerX == 68 )
-		{
-			// Go from B1 to B2 Stair J
-			nCameraY = 34;
-			nCameraX = 5;
-		} else if( nPlayerY == 41 && nPlayerX == 19 )
-		{
-			// Go from B2 to B1 stair J
-			nCameraY = 19;
-			nCameraX = 54;
-		} else if( nPlayerY == 41 && nPlayerX == 17 )
-		{
-			// Go from B2 to B3 Stair K
-			nCameraY = 34;
-			nCameraX = 31;
-		} else if( nPlayerY == 41 && nPlayerX == 45 )
-		{
-			// Go from B3 to B2 stair K
-			nCameraY = 34;
-			nCameraX = 3;
-		} else if( nPlayerY == 42 && nPlayerX == 23 )
-		{
-			// Go from B2 to B3 Stair L
-			nCameraY = 36;
-			nCameraX = 26;
-		} else if( nPlayerY == 43 && nPlayerX == 40 )
-		{
-			// Go from B3 to B2 stair L
-			nCameraY = 35;
-			nCameraX = 9;
-		} else if( nPlayerY == 49 && nPlayerX == 14 )
-		{
-			// Go from B2 to B3 Stair M
-			nCameraY = 38;
-			nCameraX = 29;
-		} else if( nPlayerY == 45 && nPlayerX == 43 )
-		{
-			// Go from B3 to B2 stair M
-			nCameraY = 42;
-			nCameraX = 0;
-		} else if( nPlayerY == 50 && nPlayerX == 15 )
-		{
-			// Go from B2 to B3 Stair N
-			nCameraY = 43;
-			nCameraX = 24;
-		} else if( nPlayerY == 50 && nPlayerX == 38 )
-		{
-			// Go from B3 to B2 stair N
-			nCameraY = 43;
-			nCameraX = 1;
-		} else if( nPlayerY == 47 && nPlayerX == 39 )
-		{
-			// Go from B3 to B4 Stair O
-			nCameraY = 43;
-			nCameraX = 48;
-		} else if( nPlayerY == 50 && nPlayerX == 62 )
-		{
-			// Go from B4 to B3 stair O
-			nCameraY = 40;
-			nCameraX = 25;
-		} else if( nPlayerY == 48 && nPlayerX == 45 )
-		{
-			// Go from B3 to B4 Stair P
-			nCameraY = 41;
-			nCameraX = 55;
-		} else if( nPlayerY == 48 && nPlayerX == 69 )
-		{
-			// Go from B4 to B3 stair P
-			nCameraY = 41;
-			nCameraX = 31;
-		} else if( nPlayerY == 42 && nPlayerX == 70 )
-		{
-			// Go from B4 to B5 Stair Q
-			nCameraY = 51;
-			nCameraX = 4;
-		} else if( nPlayerY == 58 && nPlayerX == 18 )
-		{
-			// Go from B5 to B4 stair Q
-			nCameraY = 35;
-			nCameraX = 56;
-		} else if( nPlayerY == 43 && nPlayerX == 64 )
-		{
-			// Go from B4 to B5 Stair R
-			nCameraY = 51;
-			nCameraX = 9;
-		} else if( nPlayerY == 58 && nPlayerX == 23 )
-		{
-			// Go from B5 to B4 stair R
-			nCameraY = 36;
-			nCameraX = 50;
-		} else if( nPlayerY == 58 && nPlayerX == 14 )
-		{
-			// Go from B5 to B6 Stair S
-			nCameraY = 57;
-			nCameraX = 24;
-		} else if( nPlayerY == 64 && nPlayerX == 38 )
-		{
-			// Go from B6 to B5 stair S
-			nCameraY = 51;
-			nCameraX = 0;
-		} else if( nPlayerY == 63 && nPlayerX == 19 )
-		{
-			// Go from B5 to B6 Stair T
-			nCameraY = 51;
-			nCameraX = 24;
-		} else if( nPlayerY == 58 && nPlayerX == 38 )
-		{
-			// Go from B6 to B5 stair T
-			nCameraY = 56;
-			nCameraX = 5;
-		} else if( nPlayerY == 58 && nPlayerX == 47 )
-		{
-			// Go from B6 to B6 stair T
-			nCameraY = 51;
-			nCameraX = 24;
-		} else if( nPlayerY == 64 && nPlayerX == 47 )
-		{
-			// Go from B6 to B7 Stair U
-			nCameraY = 102;
-			nCameraX = 8;
-			Player->bInCave = false;
-		} else if( nPlayerY == 109 && nPlayerX == 22 )
-		{
-			// Go from B7 to B6 stair U
-			nCameraY = 57;
-			nCameraX = 33;
-			Player->bInCave = true;
-		}
 	}
+
 	return;
 }
 
@@ -2367,28 +1995,29 @@ void UseStairs(WINDOW *wCamera, WINDOW *wAlert, TILE_TYPE sTileIndex[], cPlayer 
 		mvwprintw(wAlert, 2, 2, "here.'");
 		wgetch(wAlert);
 		ClearWindow(wAlert, cnAlertWindowHeight, cnAlertWindowWidth);
-	} else if( Player->nTargetMap == *nErdricksCaveMapArray && nPlayerY == 7 && nPlayerX == 14)
-	{
-		// Exit Erdrick's Cave, reload the world map as appropriate.
-		ChangeMap(wCamera, sTileIndex, Player, 0);
-	} else if( Player->nTargetMap == *nSwampCaveMapArray )
-	{
-		// Exit Swamp Cave, reload the world map as appropriate.
-		ChangeMap(wCamera, sTileIndex, Player, 0);
-	} else if( Player->nTargetMap == *nRockMountainCaveMapArray && nPlayerY == 14 && nPlayerX == 14)
-	{
-		// Exit Rock Mountain Cave, reload the world map as appropriate.
-		ChangeMap(wCamera, sTileIndex, Player, 0);
-	} else if ( Player->nTargetMap == *nWorldMapArray )
-	{
-		// If we're on the world map, the only stairs take us to a new map
-		ChangeMap(wCamera, sTileIndex, Player, 0);
-	} else if ( Player->nTargetMap == *nNorthernShrineMapArray || Player->nTargetMap == *nSouthernShrineMapArray )
-	{
-		// If we're in either the northern or southern shrine, the only stairs take us to the world map
-		ChangeMap(wCamera, sTileIndex, Player, 0);
+
 	} else {
-		TeleportPlayer( Player, nTileValue );
+		for( int i = 0; i < Player->nTargetStairs; i++ )
+		{
+			if( nPlayerY == Player->nTargetStairList[i].nOriginY && nPlayerX == Player->nTargetStairList[i].nOriginX )
+			{
+				nCameraY = Player->nTargetStairList[i].nDestinationY;
+				nCameraX = Player->nTargetStairList[i].nDestinationX;
+				Player->bInCave = Player->nTargetStairList[i].bInCave;
+				if( Player->nTargetMap != Player->nTargetStairList[i].nDestinationMap )
+				{
+					Player->nTargetMap = Player->nTargetStairList[i].nDestinationMap;
+					ChangeMap( wCamera, sTileIndex, Player, nTileValue );
+					return;
+				}
+				if( Player->nProgress == 0 )
+				{
+					Player->nProgress++;
+					ChangeMap( wCamera, sTileIndex, Player, nTileValue );
+					return;
+				}
+			}
+		}
 		Transition(wCamera, sTileIndex, Player);
 	}
 
