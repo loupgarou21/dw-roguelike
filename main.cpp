@@ -2003,6 +2003,9 @@ void UseStairs(WINDOW *wCamera, WINDOW *wAlert, TILE_TYPE sTileIndex[], cPlayer 
 			{
 				nCameraY = Player->nTargetStairList[i].nDestinationY;
 				nCameraX = Player->nTargetStairList[i].nDestinationX;
+				Player->nTargetY = Player->nTargetStairList[i].nDestinationY;
+				Player->nTargetX = Player->nTargetStairList[i].nDestinationX;
+				
 				Player->bInCave = Player->nTargetStairList[i].bInCave;
 				if( Player->nTargetMap != Player->nTargetStairList[i].nDestinationMap )
 				{
