@@ -76,6 +76,8 @@ cPlayer::cPlayer(void)
 	this->bPrincessSaved = false;
 	this->bRainbowDrop = false;
 	this->bLetsPlay = true;
+	this->nOutsideY = 43;
+	this->nOutsideX = 43;
 
 	// Use this to load an inventory slot if we need to for testing
 	this->nInventory[0][cnItemSlot] = cnItemKey;
@@ -284,52 +286,52 @@ int main(void)
 	// 3 - Does this tile cause you to teleport on the current map (bTeleport)
 	// 4 - Does this tile cause a new map to load (bChangeMap)
 	TILE_TYPE sTileIndex[] = {
-		{ ' ' , 1, false, false, false },			// (0) cnTileBlank
-		{ ACS_CKBOARD, 6, true, false, false },		// (1) cnTileBrickFloor
-		{ '#', 1, false, false, false },			// (2) cnTileRockWall
-		{ '.', 2, true, false, false },				// (3) cnTileGrass	
-		{ '#', 2, true, false, false }, 			// (4) cnTileTree
-		{ '~', 5, false, false, false },			// (5) cnTileWater
-		{ ACS_CKBOARD, 7, true, false, false },		// (6) cnTileSand
-		{ ACS_CKBOARD, 14, true, false, false },	// (7) cnTileSwamp
-		{ '/', 13, true, false, false },			// (8) cnTileBarrier
-		{ ACS_CKBOARD, 1, false, false, false },	// (9) cnTileRoof		
-		{ '+', 1, false, false, false }, 			// (10) cnTileDoor
-		{ 'O', 8, false, false, false },			// (11) cnTileWoodDesk
-		{ '$', 9, false, false, false },			// (12) cnTileSignShop
-		{ 'N', 9, false, false, false },			// (13) cnTileSignInn
-		{ '=', 10, true, false, false },			// (14) cnTileBridge
-		{ '<', 1, true, false, false }, 			// (15) cnTileStairUp
-		{ '>', 1, true, false, false },				// (16) cnTileStairDown
-		{ '.', 2, false, false, true },				// (17) cnTileGrassExit
-		{ ACS_CKBOARD, 7, false, false, true },		// (18) cnTileSandExit
-		{ ACS_CKBOARD, 14, false, false, true },	// (19) cnTileSwampExit
-		{ 'X', 6, false, false, false },			// (20) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false },			// (21) ** AVAILABLE TILE SLOT **
-		{ 'n', 7, true, false, false },				// (22) cnTileHill
-		{ 'M', 1, false, false, false },			// (23) cnTileMountain
-		{ ACS_PI, 1, true, false, true },			// (24) cnTileGarinham
-		{ ACS_PI, 1, true, false, true },			// (25) cnTileKol
-		{ 'C', 1, true, false, true },				// (26) cnTileErdricksCave
-		{ ACS_PI, 1, true, false, true },			// (27) cnTileBrecconary
-		{ 'A', 1, true, false, true }, 				// (28) cnTileTantegel
-		{ 'C', 1, true, false, true }, 				// (29) cnTileSwampCave1
-		{ 'A', 1, true, false, true }, 				// (30) cnTileCharlock
-		{ 'C', 1, true, false, true }, 				// (31) cnTileSwampCave2
-		{ 'C', 1, true, false, true },				// (32) cnTileRockMountainCave
-		{ ACS_PI, 1, true, false, true },			// (33) cnTileRimuldar
-		{ ACS_PI, 1, true, false, true },			// (34) cnTileHauksness
-		{ ACS_PI, 1, true, false, true },			// (35) cnTileCantlin
-		{ '#', 2, false, false, true },				// (36) cnTileTreeExit
-		{ 'X', 6, false, false, false },			// (37) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false },			// (38) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false },			// (39) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false },			// (40) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false },			// (41) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false },			// (42) ** AVAILABLE TILE SLOT **
-		{ ACS_CKBOARD, 6, false, false, true },		// (43) cnTileBrickExit
-		{ ACS_CKBOARD, 1, true, true, false },		// (44) cnTileHouseIn
-		{ ' ', 1, true, true, false }				// (45) cnTileHouseOut
+		{ ' ' , 1, false, false, false, nullptr, 0, 0 },					// (0) cnTileBlank
+		{ ACS_CKBOARD, 6, true, false, false, nullptr, 0, 0 },				// (1) cnTileBrickFloor
+		{ '#', 1, false, false, false, nullptr, 0, 0 },						// (2) cnTileRockWall
+		{ '.', 2, true, false, false, nullptr, 0, 0 },						// (3) cnTileGrass	
+		{ '#', 2, true, false, false, nullptr, 0, 0 }, 						// (4) cnTileTree
+		{ '~', 5, false, false, false, nullptr, 0, 0 },						// (5) cnTileWater
+		{ ACS_CKBOARD, 7, true, false, false, nullptr, 0, 0 },				// (6) cnTileSand
+		{ ACS_CKBOARD, 14, true, false, false, nullptr, 0, 0 },				// (7) cnTileSwamp
+		{ '/', 13, true, false, false, nullptr, 0, 0 },						// (8) cnTileBarrier
+		{ ACS_CKBOARD, 1, false, false, false, nullptr, 0, 0 },				// (9) cnTileRoof		
+		{ '+', 1, false, false, false, nullptr, 0, 0 }, 					// (10) cnTileDoor
+		{ 'O', 8, false, false, false, nullptr, 0, 0 },						// (11) cnTileWoodDesk
+		{ '$', 9, false, false, false, nullptr, 0, 0 },						// (12) cnTileSignShop
+		{ 'N', 9, false, false, false, nullptr, 0, 0 },						// (13) cnTileSignInn
+		{ '=', 10, true, false, false, nullptr, 0, 0 },						// (14) cnTileBridge
+		{ '<', 1, true, false, false, nullptr, 0, 0 }, 						// (15) cnTileStairUp
+		{ '>', 1, true, false, false, nullptr, 0, 0 },						// (16) cnTileStairDown
+		{ '.', 2, false, false, true, *nWorldMapArray, -1, -1 },			// (17) cnTileGrassExit
+		{ ACS_CKBOARD, 7, false, false, true, *nWorldMapArray, -1, -1 },	// (18) cnTileSandExit
+		{ ACS_CKBOARD, 14, false, false, true, *nWorldMapArray, -1, -1 },	// (19) cnTileSwampExit
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (20) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (21) ** AVAILABLE TILE SLOT **
+		{ 'n', 7, true, false, false, nullptr, 0, 0 },						// (22) cnTileHill
+		{ 'M', 1, false, false, false, nullptr, 0, 0 },						// (23) cnTileMountain
+		{ ACS_PI, 1, true, false, true, *nGarinhamMapArray, 14, 0 },		// (24) cnTileGarinham
+		{ ACS_PI, 1, true, false, true, *nKolMapArray, 23, 19 },			// (25) cnTileKol
+		{ 'C', 1, true, false, true, *nErdricksCaveMapArray, 0, 0 },		// (26) cnTileErdricksCave
+		{ ACS_PI, 1, true, false, true, *nBrecconaryMapArray, 15, 0 },		// (27) cnTileBrecconary
+		{ 'A', 1, true, false, true, *nTantegelMapArray, 29, 10 }, 			// (28) cnTileTantegel
+		{ 'C', 1, true, false, true, *nSwampCaveMapArray, 0, 0 }, 			// (29) cnTileSwampCave1
+		{ 'A', 1, true, false, true, *nCharlockCastleMapArray, 19, 9 }, 	// (30) cnTileCharlock
+		{ 'C', 1, true, false, true, *nSwampCaveMapArray, 29, 0 }, 			// (31) cnTileSwampCave2
+		{ 'C', 1, true, false, true, *nRockMountainCaveMapArray, 7, 0 },	// (32) cnTileRockMountainCave
+		{ ACS_PI, 1, true, false, true, *nRimuldarMapArray, 14, 29 },		// (33) cnTileRimuldar
+		{ ACS_PI, 1, true, false, true, *nHauksnessMapArray, 10, 0 },		// (34) cnTileHauksness
+		{ ACS_PI, 1, true, false, true, *nCantlinMapArray, 0, 15 },			// (35) cnTileCantlin
+		{ '#', 2, false, false, true, *nWorldMapArray, -1, -1 },			// (36) cnTileTreeExit
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (37) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (38) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (39) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (40) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (41) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (42) ** AVAILABLE TILE SLOT **
+		{ ACS_CKBOARD, 6, false, false, true, *nWorldMapArray, -1, -1 },	// (43) cnTileBrickExit
+		{ ACS_CKBOARD, 1, true, true, false, nullptr, 0, 0 },				// (44) cnTileHouseIn
+		{ ' ', 1, true, true, false, nullptr, 0, 0 }						// (45) cnTileHouseOut
 	};
 
 	int nDeltaX, nDeltaY;			// This is used for storing player movement
@@ -466,6 +468,15 @@ bool IsPassible( WINDOW *wCamera, int x, int y, TILE_TYPE sTileIndex[], cPlayer 
 	if(sTileIndex[nTileValue].bChangeMap)
 	{
 		// If we're trying to step on a tile that brings us to a new map, change maps
+		if(Player->nTargetMap == *nWorldMapArray)
+		{
+			// Set some coordinate to return to when we leave the city
+			Player->nOutsideY = nCameraY + (y - Player->sHero.nPositionY);
+			Player->nOutsideX = nCameraX + (x - Player->sHero.nPositionX);
+		}
+		Player->nTargetMap = sTileIndex[nTileValue].nTargetMap;
+		Player->nTargetY = sTileIndex[nTileValue].nTargetY;
+		Player->nTargetX = sTileIndex[nTileValue].nTargetX;
 		ChangeMap(wCamera, sTileIndex, Player, nTileValue);
 		return false;
 
@@ -489,131 +500,40 @@ bool IsPassible( WINDOW *wCamera, int x, int y, TILE_TYPE sTileIndex[], cPlayer 
 
 void ChangeMap( WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player, int nTileValue )
 {
-	int nPlayerX = nCameraX + Player->sHero.nPositionX;
-	int nPlayerY = nCameraY + Player->sHero.nPositionY;
-
-	if( nTileValue == cnTileGrassExit || nTileValue == cnTileTreeExit || nTileValue == cnTileBrickExit || nTileValue == cnTileSandExit || nTileValue == cnTileSwampExit )
+	if(Player->nTargetMap == *nBrecconaryMapArray)
 	{
-		if( Player->nTargetMap ==  *nTantegelMapArray )
-		{
-			// If we're leaving from Tantegel, teleport to the Tantegel tile on the world map
-			Player->nTargetX = 43;
-			Player->nTargetY = 43;
-		} else if( Player->nTargetMap == *nBrecconaryMapArray )
-		{
-			// If we're leaving from Brecconary, teleport to the Brecconary tile on the world map
-			Player->nTargetX = 48;
-			Player->nTargetY = 41;
-		} else if( Player->nTargetMap == *nRimuldarMapArray )
-		{
-			// If we're leaving from Rimuldar, teleport to the Rimuldar tile on the world map
-			Player->nTargetX = 102;
-			Player->nTargetY = 72;
-		} else if( Player->nTargetMap == *nCantlinMapArray )
-		{
-			// If we're leaving from Cantlin, teleport to the Cantlin tile on the world map
-			Player->nTargetX = 73;
-			Player->nTargetY = 102;
-		} else if( Player->nTargetMap == *nGarinhamMapArray )
-		{
-			// If we're leaving from Garinham, teleport to the Garinham tile on the world map
-			Player->nTargetX = 2;
-			Player->nTargetY = 2;
-		} else if( Player->nTargetMap == *nKolMapArray )
-		{
-			// If we're leaving from Kol, teleport to the Kol tile on the world map
-			Player->nTargetX = 104;
-			Player->nTargetY = 10;
-		} else if( Player->nTargetMap == *nHauksnessMapArray )
-		{
-			// If we're leaving from Hauksness, teleport to the Hauksness tile on the world map
-			Player->nTargetX = 25;
-			Player->nTargetY = 89;
-		} else if( Player->nTargetMap == *nCharlockCastleMapArray )
-		{
-			// If we're leaving from Charlock Castle, teleport to the Charlock Castle tile on the world map
-			Player->nTargetX = 48;
-			Player->nTargetY = 48;
-		} else{
-			// Oops, we haven't defined this properly yet, let's move to the Tantegel tile as we know it's a safe place
-			Player->nTargetX = 43;
-			Player->nTargetY = 43;
-		}
-		LoadWorldMap(Player);
-	} else if(nTileValue == cnTileBrecconary)
-	{
-		// if we're trying to step on the brecconary tile, let's go to brecconary
-		Player->nTargetX = 0;
-		Player->nTargetY = 15;
 		LoadBrecconaryMap(Player);
-	} else if(nTileValue == cnTileCharlockCastle)
+	} else if(Player->nTargetMap == *nCharlockCastleMapArray)
 	{
-		// if we're trying to step on the CharlockCastle tile, let's go to CharlockCastle
-		Player->nTargetX = 9;
-		Player->nTargetY = 19;
 		LoadCharlockCastle(Player);
-	} else if(nTileValue == cnTileTantegel)
+	} else if(Player->nTargetMap == *nErdricksCaveMapArray)
 	{
-		// If we're trying to step on the tantegel tile, let's go to tantegel
-		Player->nTargetX = 10;
-		Player->nTargetY = 29;
-		LoadTantegelMap(Player);
-	} else if(nTileValue == cnTileErdricksCave)
-	{
-		// If we're trying to step on the Erdrick's Cave tile, let's go to Erdrick's Cave
-		Player->nTargetX = 0;
-		Player->nTargetY = 0;
 		LoadErdricksCave(Player);
-	} else if(nTileValue == cnTileGarinham)
+	} else if(Player->nTargetMap == *nGarinhamMapArray)
 	{
-		// If we're trying to step on the Garinham tile, let's go to Garinham
-		Player->nTargetX = 0;
-		Player->nTargetY = 14;
 		LoadGarinham(Player);
-	} else if(nTileValue == cnTileKol)
+	} else if(Player->nTargetMap == *nKolMapArray )
 	{
-		// If we're trying to step on the Kol tile, let's go to Kol
-		Player->nTargetX = 19;
-		Player->nTargetY = 23;
 		LoadKol(Player);
-	} else if(nTileValue == cnTileHauksness)
+	} else if(Player->nTargetMap == *nHauksnessMapArray)
 	{
-		// If we're trying to step on the Hauksness tile, let's go to Hauksness
-		Player->nTargetX = 0;
-		Player->nTargetY = 10;
 		LoadHauksness(Player);
-	}  else if(nTileValue == cnTileSwampCave1)
+	} else if(Player->nTargetMap == *nSwampCaveMapArray )
 	{
-		// If we're trying to step on the Northern swamp Cave tile, let's go to the northern swamp cave stairs
-		Player->nTargetX = 0;
-		Player->nTargetY = 0;
 		LoadSwampCave(Player);
-	} else if(nTileValue == cnTileSwampCave2)
+	} else if(Player->nTargetMap == *nRockMountainCaveMapArray )
 	{
-		// If we're trying to step on the Southern swamp Cave tile, let's go to the southern swamp cave stairs
-		Player->nTargetX = 0;
-		Player->nTargetY = 29;
-		LoadSwampCave(Player);
-	} else if(nTileValue == cnTileRockMountainCave)
-	{
-		// Enter the rock mountain cave
-		Player->nTargetX = 0;
-		Player->nTargetY = 7;
 		LoadRockMountainCave(Player);
-	} else if(nTileValue == cnTileRimuldar)
+	} else if(Player->nTargetMap == *nRimuldarMapArray )
 	{
-		// if we're trying to step on the rimuldar tile, let's go to rimuldar
-		Player->nTargetX = 29;
-		Player->nTargetY = 14;
 		LoadRimuldar(Player);
-	} else if(nTileValue == cnTileCantlin)
+	} else if(Player->nTargetMap == *nCantlinMapArray )
 	{
-		// if we're trying to step on the cantlin tile, let's go to cantlin
-		Player->nTargetX =15;
-		Player->nTargetY = 0;
 		LoadCantlin(Player);
 	} else if( Player->nTargetMap == *nWorldMapArray )
 	{
+		Player->nTargetY = Player->nOutsideY;
+		Player->nTargetX = Player->nOutsideX;
 		LoadWorldMap(Player);
 	} else if( Player->nTargetMap == *nNorthernShrineMapArray )
 	{
