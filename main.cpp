@@ -303,9 +303,9 @@ int main(void)
 		{ '=', 10, true, false, false, nullptr, 0, 0 },						// (14) cnTileBridge
 		{ '<', 1, true, false, false, nullptr, 0, 0 }, 						// (15) cnTileStairUp
 		{ '>', 1, true, false, false, nullptr, 0, 0 },						// (16) cnTileStairDown
-		{ '.', 2, false, false, true, *nWorldMapArray, -1, -1 },			// (17) cnTileGrassExit
-		{ ACS_CKBOARD, 7, false, false, true, *nWorldMapArray, -1, -1 },	// (18) cnTileSandExit
-		{ ACS_CKBOARD, 14, false, false, true, *nWorldMapArray, -1, -1 },	// (19) cnTileSwampExit
+		{ '.', 2, false, false, true, *nWorldMapArray, 0, 0 },			// (17) cnTileGrassExit
+		{ ACS_CKBOARD, 7, false, false, true, *nWorldMapArray, 0, 0 },	// (18) cnTileSandExit
+		{ ACS_CKBOARD, 14, false, false, true, *nWorldMapArray, 0, 0 },	// (19) cnTileSwampExit
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (20) ** AVAILABLE TILE SLOT **
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (21) ** AVAILABLE TILE SLOT **
 		{ 'n', 7, true, false, false, nullptr, 0, 0 },						// (22) cnTileHill
@@ -322,14 +322,14 @@ int main(void)
 		{ ACS_PI, 1, true, false, true, *nRimuldarMapArray, 14, 29 },		// (33) cnTileRimuldar
 		{ ACS_PI, 1, true, false, true, *nHauksnessMapArray, 10, 0 },		// (34) cnTileHauksness
 		{ ACS_PI, 1, true, false, true, *nCantlinMapArray, 0, 15 },			// (35) cnTileCantlin
-		{ '#', 2, false, false, true, *nWorldMapArray, -1, -1 },			// (36) cnTileTreeExit
+		{ '#', 2, false, false, true, *nWorldMapArray, 0, 0 },			// (36) cnTileTreeExit
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (37) ** AVAILABLE TILE SLOT **
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (38) ** AVAILABLE TILE SLOT **
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (39) ** AVAILABLE TILE SLOT **
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (40) ** AVAILABLE TILE SLOT **
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (41) ** AVAILABLE TILE SLOT **
 		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (42) ** AVAILABLE TILE SLOT **
-		{ ACS_CKBOARD, 6, false, false, true, *nWorldMapArray, -1, -1 },	// (43) cnTileBrickExit
+		{ ACS_CKBOARD, 6, false, false, true, *nWorldMapArray, 0, 0 },	// (43) cnTileBrickExit
 		{ ACS_CKBOARD, 1, true, true, false, nullptr, 0, 0 },				// (44) cnTileHouseIn
 		{ ' ', 1, true, true, false, nullptr, 0, 0 }						// (45) cnTileHouseOut
 	};
