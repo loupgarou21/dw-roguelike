@@ -220,4 +220,34 @@ const int cnGarinhamActors =  0;
 // 6 = nConversation
 int nGarinhamActorList[cnGarinhamActors][cnBasicActorAttributes] = {};
 
+const int cnGarinhamStairs = 18;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nGarinhamStairArray[cnGarinhamStairs][cnStairAttributes] = {
+    { 7, 33, 79, 6, cnMapGarinham, true },      // F1 to B1
+    { 86, 20, 0, 19, cnMapGarinham, false },    // B1 to F1
+    { 93, 15, 97,11, cnMapGarinham, true }, // B1 to B2 Stair A
+    { 104, 25, 86, 1, cnMapGarinham, true },    // B2 to B1 Stair A
+    { 103, 15, 117, 14, cnMapGarinham, true },  // B2 to B3 Stair B
+    { 124, 28, 96, 1, cnMapGarinham, true },    // B3 to B2 Stair B
+    { 103, 26, 117, 18, cnMapGarinham, true },  // B2 to B3 Stair C
+    { 124, 32, 96, 12, cnMapGarinham, true },   // B3 to B2 Stair C
+    { 108, 19, 127, 6, cnMapGarinham, true },   // B2 to B3 Stair D
+    { 134, 20, 101, 5, cnMapGarinham, true },   // B3 to B2 Stair D
+    { 112, 15, 133, 2, cnMapGarinham, true },   // B2 to B3 Stair E
+    { 140, 16, 105, 1, cnMapGarinham, true },   // B3 to B2 Stair E
+    { 112, 26, 129, 18, cnMapGarinham, true },  // B2 to B3 Stair F
+    { 136, 32, 105, 12, cnMapGarinham, true },  // B3 to B2 Stair F
+    { 128, 23, 147, 0, cnMapGarinham, true },   // B3 to B4 Stair G
+    { 154, 14, 121, 9, cnMapGarinham, true },   // B4 to B3 Stair G
+    { 132, 24, 147, 5, cnMapGarinham, true },   // B3 to B4 Stair H
+    { 154, 19, 125, 10, cnMapGarinham, true }   // B4 to B3 Stair H
+};
+
 #endif // MAP_GARINHAM_H

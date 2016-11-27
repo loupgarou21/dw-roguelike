@@ -59,7 +59,19 @@ const int cnNorthernShrineActors = 0;
 // 5 = bIsMerchant
 // 6 = nConversation
 
-int nNorthernShrineActorList[cnNorthernShrineActors][cnBasicActorAttributes] = {
+int nNorthernShrineActorList[cnNorthernShrineActors][cnBasicActorAttributes] = {};
+
+const int cnNorthernShrineStairs = 1;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nNorthernShrineStairArray[cnNorthernShrineStairs][cnStairAttributes] = {
+    { 16, 18, 1, 81, cnMapWorld, false }			// Exit to world map
 };
 
 #endif // MAP_NORTHERN_SHRINE_H

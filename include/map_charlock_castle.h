@@ -165,4 +165,59 @@ int nCharlockCastleActorList[cnCharlockCastleActors][cnBasicActorAttributes] = {
 	{ 1, 17, 104, 28, 0, 0, 0 }
 };
 
+const int cnCharlockCastleStairs = 43;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nCharlockCastleStairArray[cnCharlockCastleStairs][cnStairAttributes] = {
+	{ 8, 23, 0, 55, cnMapCharlockCastle, true },		// F1 to B1 Stair A
+	{ 7, 69, 1, 9, cnMapCharlockCastle, false },		// B1 to F1 Stair A
+	{ 21, 17, 13, 54, cnMapCharlockCastle, true },		// F1 to B1 Stair B
+	{ 20, 68, 14, 3, cnMapCharlockCastle, false },		// B1 to F1 Stair B
+	{ 21, 28, 15, 63, cnMapCharlockCastle, true },		// F1 to B1 Stair C
+	{ 22, 77, 14, 14, cnMapCharlockCastle, false },	// B1 to F1 Stair C
+	{ 8, 75, 34, 8, cnMapCharlockCastle, true },		// B1 to B2 Stair D
+	{ 41, 22, 1, 61, cnMapCharlockCastle, true },		// B2 to B1 Stair D
+	{ 11, 62, 34, 0, cnMapCharlockCastle, true },		// B1 to B2 Stair E
+	{ 41, 14, 4, 48, cnMapCharlockCastle, true },		// B2 to B1 Stair E
+	{ 14, 73, 38, 4, cnMapCharlockCastle, true },		// B1 to B2 Stair F
+	{ 45, 18, 7, 59, cnMapCharlockCastle, true },		// B2 to B1 Stair F
+	{ 14, 79, 42, 9, cnMapCharlockCastle, true },		// B1 to B2 Stair G
+	{ 49, 23, 7, 65, cnMapCharlockCastle, true },		// B2 to B1 Stair G
+	{ 16, 74, 43, 8, cnMapCharlockCastle, true },		// B1 to B2 Stair H
+	{ 50, 22, 9, 60, cnMapCharlockCastle, true },		// B2 to B1 Stair H
+	{ 21, 62, 35, 0, cnMapCharlockCastle, true },		// B1 to B2 Stair I
+	{ 42, 14, 14, 48, cnMapCharlockCastle, true },		// B2 to B1 Stair I
+	{ 26, 68, 34, 5, cnMapCharlockCastle, true },		// B1 to B2 Stair J
+	{ 41, 19, 19, 54, cnMapCharlockCastle, true },		// B2 to B1 Stair J
+	{ 41, 17, 34, 31, cnMapCharlockCastle, true },		// B2 to B3 Stair K
+	{ 41, 45, 34, 3, cnMapCharlockCastle, true },		// B3 to B2 Stair K
+	{ 42, 23, 36, 26, cnMapCharlockCastle, true },		// B2 to B3 Stair L
+	{ 43, 40, 35, 9, cnMapCharlockCastle, true },		// B3 to B2 Stair L
+	{ 49, 14, 38, 29, cnMapCharlockCastle, true },		// B2 to B3 Stair M
+	{ 45, 43, 42, 0, cnMapCharlockCastle, true },		// B3 to B2 Stair M
+	{ 50, 15, 43, 24, cnMapCharlockCastle, true },		// B2 to B3 Stair N
+	{ 50, 38, 43, 1, cnMapCharlockCastle, true },		// B3 to B2 Stair N
+	{ 47, 39, 43, 48, cnMapCharlockCastle, true },		// B3 to B4 Stair O
+	{ 50, 62, 40, 25, cnMapCharlockCastle, true },		// B4 to B3 Stair O
+	{ 48, 45, 41, 55, cnMapCharlockCastle, true },		// B3 to B4 Stair P
+	{ 48, 69, 41, 31, cnMapCharlockCastle, true },		// B4 to B3 Stair P
+	{ 42, 70, 51, 4, cnMapCharlockCastle, true },		// B4 to B5 Stair Q
+	{ 58, 18, 35, 56, cnMapCharlockCastle, true },		// B5 to B4 Stair Q
+	{ 43, 64, 51, 9, cnMapCharlockCastle, true },		// B4 to B5 Stair R
+	{ 58, 23, 36, 50, cnMapCharlockCastle, true },		// B5 to B4 Stair R
+	{ 58, 14, 57, 24, cnMapCharlockCastle, true },		// B5 to B6 Stair S
+	{ 64, 38, 51, 0, cnMapCharlockCastle, true },		// B6 to B5 Stair S
+	{ 63, 19, 51, 24, cnMapCharlockCastle, true },		// B5 to B6 Stair T
+	{ 58, 38, 56, 5, cnMapCharlockCastle, true },		// B6 to B5 Stair T
+	{ 58, 47, 51, 24, cnMapCharlockCastle, true },		// B6 to B6 Stair T
+	{ 64, 47, 102, 8, cnMapCharlockCastle, false },	// B6 to B7 Stair U
+	{ 109, 22, 57, 33, cnMapCharlockCastle, true }		// B7 to B6 Stair U
+};
+
 #endif // MAP_CHARLOCK_CASTLE_H

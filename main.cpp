@@ -3,6 +3,7 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include <vector>
 // Needed for ubuntu:
 #include <string.h>
 #include <unistd.h>
@@ -11,10 +12,15 @@
 #include "items.h"
 #include "chests.h"
 #include "actor.h"
+#include "stairs.h"
+#include "map_class.h"
+#include "maps.h"
+#include "window_layouts.h"
+#include "character.h"
+#include "equipment.h"
+#include "map_tiles.h"
 
 // Map Inclusions
-#include "map_tiles.h"
-#include "map_world.h"
 #include "map_brecconary.h"
 #include "map_cantlin.h"
 #include "map_charlock_castle.h"
@@ -28,13 +34,7 @@
 #include "map_southern_shrine.h"
 #include "map_swamp_cave.h"
 #include "map_tantegel.h"
-
-
-// Other inclusions
-#include "window_layouts.h"
-#include "stairs.h"
-#include "character.h"
-#include "equipment.h"
+#include "map_world.h"
 
 // Global Map Dimensions
 // As a note, don't confuse the "Global Map" with the "Overworld Map"
@@ -61,7 +61,7 @@ cPlayer::cPlayer(void)
 		this->nInventory[i][cnItemCount] = 0;
 	}
 	this->nProgress = 0;
-	this->nTargetMap = NULL;
+	this->nTargetMap = cnMapTantegel;
 	this->nTargetMapHeight = 0;
 	this->nTargetMapWidth = 0;
 	this->nTargetX = 2;
@@ -156,12 +156,38 @@ cActor::~cActor(void)
 	}
 }
 
+cMap::cMap()
+{
+
+}
+
+cMap::~cMap()
+{
+
+}
+
+int *nTargetMap;
+int nTargetMapHeight;
+int nTargetMapWidth;
+int nTargetActors;
+int *nTargetActorList;
+int nTargetChests;
+int *nTargetChestList;
+int nTargetStairs;
+int *nTargetStairList;
+
 //////////////////////
 // Global variables //
 //////////////////////
-int nGlobalMapArray[cnGlobalMapHeight][cnGlobalMapWidth]; 	// Array for the global map
-int nGlobalItemArray[cnGlobalMapHeight][cnGlobalMapWidth];	// Array for the global item map
-int nCameraMapArray[cnCameraMapHeight][cnCameraMapWidth]; 	// Array for the camera map
+std::vector<std::vector<int> > nGlobalMapArray(cnGlobalMapHeight, std::vector<int> (cnGlobalMapWidth, 0));		// 2d vector for the global map
+std::vector<std::vector<int> > nGlobalItemArray(cnGlobalMapHeight, std::vector<int> (cnGlobalMapWidth, 0));		// 2d vector for the global item map
+std::vector<std::vector<int> > nCameraMapArray(cnCameraMapHeight, std::vector<int> (cnCameraMapWidth, 0));		// 2d vector for the camera map
+
+cMap * p_cMapList[cnMaps];
+
+// int nGlobalMapArray[cnGlobalMapHeight][cnGlobalMapWidth]; 	// Array for the global map
+// int nGlobalItemArray[cnGlobalMapHeight][cnGlobalMapWidth];	// Array for the global item map
+// int nCameraMapArray[cnCameraMapHeight][cnCameraMapWidth]; 	// Array for the camera map
 // I thought about keeping the camera X and Y coordinates
 // local and just passing them from function to function,
 // but I started passing these variables a lot, so I just
@@ -175,20 +201,6 @@ int nCameraY;
 
 bool IsPassible( WINDOW *wCamera, int x, int y, TILE_TYPE sTileIndex[], cPlayer *Player);
 void ChangeMap( WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player, int nTileValue);
-void LoadBrecconaryMap( cPlayer *Player );
-void LoadCantlin( cPlayer *Player );
-void LoadCharlockCastle( cPlayer *Player );
-void LoadErdricksCave( cPlayer *Player );
-void LoadGarinham( cPlayer *Player );
-void LoadHauksness( cPlayer *Player );
-void LoadKol( cPlayer *Player );
-void LoadNorthernShrine( cPlayer *Player );
-void LoadRimuldar( cPlayer *Player );
-void LoadRockMountainCave( cPlayer *Player );
-void LoadSouthernShrine( cPlayer *Player );
-void LoadSwampCave( cPlayer *Player );
-void LoadTantegelMap( cPlayer *Player );
-void LoadWorldMap( cPlayer *Player );
 void TeleportPlayer( cPlayer *Player, int nTileValue );
 bool ActorObstruction( int y, int x, cPlayer *Player );
 void UpdateActor( cActor *CurrentActor, TILE_TYPE sTileIndex[], cPlayer *Player, WINDOW *wCamera);
@@ -219,6 +231,21 @@ void RemoveItem(int nInventorySlot, cPlayer *Player);
 void UseHerb(WINDOW *wAlert, int nInventorySlot, cPlayer *Player);
 void UseKey(WINDOW *wAlert, int nInventorySlot, cPlayer *Player);
 void UseRainbowDrop(WINDOW *wCamera, WINDOW *wAlert, TILE_TYPE sTileIndex[], int nInventorySlot, cPlayer *Player);
+void InitializeMaps();
+void LoadBrecconaryMap();
+void LoadCantlin();
+void LoadCharlockCastle();
+void LoadErdricksCave();
+void LoadGarinham();
+void LoadHauksness();
+void LoadKol();
+void LoadNorthernShrine();
+void LoadRimuldar();
+void LoadRockMountainCave();
+void LoadSouthernShrine();
+void LoadSwampCave();
+void LoadTantegelMap();
+void LoadWorldMap();
 
 
 ////////////////////////////////////////////
@@ -286,6 +313,7 @@ int main(void)
 	// 3 - Does this tile cause you to teleport on the current map (bTeleport)
 	// 4 - Does this tile cause a new map to load (bChangeMap)
 	TILE_TYPE sTileIndex[] = {
+<<<<<<< HEAD
 		{ ' ' , 1, false, false, false, nullptr, 0, 0 },					// (0) cnTileBlank
 		{ ACS_CKBOARD, 6, true, false, false, nullptr, 0, 0 },				// (1) cnTileBrickFloor
 		{ '#', 1, false, false, false, nullptr, 0, 0 },						// (2) cnTileRockWall
@@ -332,12 +360,62 @@ int main(void)
 		{ ACS_CKBOARD, 6, false, false, true, *nWorldMapArray, 0, 0 },	// (43) cnTileBrickExit
 		{ ACS_CKBOARD, 1, true, true, false, nullptr, 0, 0 },				// (44) cnTileHouseIn
 		{ ' ', 1, true, true, false, nullptr, 0, 0 }						// (45) cnTileHouseOut
+=======
+		{ ' ' , 1, false, false, false, cnMapNone, 0, 0 },					// (0) cnTileBlank
+		{ ACS_CKBOARD, 6, true, false, false, cnMapNone, 0, 0 },				// (1) cnTileBrickFloor
+		{ '#', 1, false, false, false, cnMapNone, 0, 0 },						// (2) cnTileRockWall
+		{ '.', 2, true, false, false, cnMapNone, 0, 0 },						// (3) cnTileGrass	
+		{ '#', 2, true, false, false, cnMapNone, 0, 0 }, 						// (4) cnTileTree
+		{ '~', 5, false, false, false, cnMapNone, 0, 0 },						// (5) cnTileWater
+		{ ACS_CKBOARD, 7, true, false, false, cnMapNone, 0, 0 },				// (6) cnTileSand
+		{ ACS_CKBOARD, 14, true, false, false, cnMapNone, 0, 0 },				// (7) cnTileSwamp
+		{ '/', 13, true, false, false, cnMapNone, 0, 0 },						// (8) cnTileBarrier
+		{ ACS_CKBOARD, 1, false, false, false, cnMapNone, 0, 0 },				// (9) cnTileRoof		
+		{ '+', 1, false, false, false, cnMapNone, 0, 0 }, 					// (10) cnTileDoor
+		{ 'O', 8, false, false, false, cnMapNone, 0, 0 },						// (11) cnTileWoodDesk
+		{ '$', 9, false, false, false, cnMapNone, 0, 0 },						// (12) cnTileSignShop
+		{ 'N', 9, false, false, false, cnMapNone, 0, 0 },						// (13) cnTileSignInn
+		{ '=', 10, true, false, false, cnMapNone, 0, 0 },						// (14) cnTileBridge
+		{ '<', 1, true, false, false, cnMapNone, 0, 0 }, 						// (15) cnTileStairUp
+		{ '>', 1, true, false, false, cnMapNone, 0, 0 },						// (16) cnTileStairDown
+		{ '.', 2, false, false, true, cnMapWorld, 0, 0 },					// (17) cnTileGrassExit
+		{ ACS_CKBOARD, 7, false, false, true, cnMapWorld, 0, 0 },			// (18) cnTileSandExit
+		{ ACS_CKBOARD, 14, false, false, true, cnMapWorld, 0, 0 },			// (19) cnTileSwampExit
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (20) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (21) ** AVAILABLE TILE SLOT **
+		{ 'n', 7, true, false, false, cnMapNone, 0, 0 },						// (22) cnTileHill
+		{ 'M', 1, false, false, false, cnMapNone, 0, 0 },						// (23) cnTileMountain
+		{ ACS_PI, 1, true, false, true, cnMapGarinham, 14, 0 },				// (24) cnTileGarinham
+		{ ACS_PI, 1, true, false, true, cnMapKol, 23, 19 },					// (25) cnTileKol
+		{ 'C', 1, true, false, true, cnMapErdricksCave, 0, 0 },				// (26) cnTileErdricksCave
+		{ ACS_PI, 1, true, false, true, cnMapBrecconary, 15, 0 },			// (27) cnTileBrecconary
+		{ 'A', 1, true, false, true, cnMapTantegel, 29, 10 }, 				// (28) cnTileTantegel
+		{ 'C', 1, true, false, true, cnMapSwampCave, 0, 0 }, 				// (29) cnTileSwampCave1
+		{ 'A', 1, true, false, true, cnMapCharlockCastle, 19, 9 }, 			// (30) cnTileCharlock
+		{ 'C', 1, true, false, true, cnMapSwampCave, 29, 0 }, 				// (31) cnTileSwampCave2
+		{ 'C', 1, true, false, true, cnMapRockMountainCave, 7, 0 },			// (32) cnTileRockMountainCave
+		{ ACS_PI, 1, true, false, true, cnMapRimuldar, 14, 29 },			// (33) cnTileRimuldar
+		{ ACS_PI, 1, true, false, true, cnMapHauksness, 10, 0 },			// (34) cnTileHauksness
+		{ ACS_PI, 1, true, false, true, cnMapCantlin, 0, 15 },				// (35) cnTileCantlin
+		{ '#', 2, false, false, true, cnMapWorld, 0, 0 },					// (36) cnTileTreeExit
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (37) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (38) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (39) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (40) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (41) ** AVAILABLE TILE SLOT **
+		{ 'X', 6, false, false, false, cnMapNone, 0, 0 },						// (42) ** AVAILABLE TILE SLOT **
+		{ ACS_CKBOARD, 6, false, false, true, cnMapWorld, 0, 0 },			// (43) cnTileBrickExit
+		{ ACS_CKBOARD, 1, true, true, false, cnMapNone, 0, 0 },				// (44) cnTileHouseIn
+		{ ' ', 1, true, true, false, cnMapNone, 0, 0 }						// (45) cnTileHouseOut
+>>>>>>> Create-map-class
 	};
 
 	int nDeltaX, nDeltaY;			// This is used for storing player movement
 
 	// Create our player object
 	cPlayer Player;
+
+	InitializeMaps();
 
 	// Create our chest objects
 	for(int i = 0; i < cnMaxChests; i++)
@@ -356,10 +434,7 @@ int main(void)
 
 	int nTileItem;
 
-	LoadTantegelMap(&Player);
-
-	// Initialize the item map
-	memset( nGlobalItemArray, 0, sizeof(nGlobalItemArray));
+	Player.nTargetMap = cnMapTantegel;
 
 	// I added the Transition() function in order to make loading a new location prettier,
 	// (well, less jarring anyway,) but loading the map before the rest of the screen made 
@@ -468,7 +543,7 @@ bool IsPassible( WINDOW *wCamera, int x, int y, TILE_TYPE sTileIndex[], cPlayer 
 	if(sTileIndex[nTileValue].bChangeMap)
 	{
 		// If we're trying to step on a tile that brings us to a new map, change maps
-		if(Player->nTargetMap == *nWorldMapArray)
+		if(Player->nTargetMap == cnMapWorld)
 		{
 			// Set some coordinate to return to when we leave the city
 			Player->nOutsideY = nCameraY + (y - Player->sHero.nPositionY);
@@ -500,253 +575,15 @@ bool IsPassible( WINDOW *wCamera, int x, int y, TILE_TYPE sTileIndex[], cPlayer 
 
 void ChangeMap( WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player, int nTileValue )
 {
-	if(Player->nTargetMap == *nBrecconaryMapArray)
-	{
-		LoadBrecconaryMap(Player);
-	} else if(Player->nTargetMap == *nCharlockCastleMapArray)
-	{
-		LoadCharlockCastle(Player);
-	} else if(Player->nTargetMap == *nErdricksCaveMapArray)
-	{
-		LoadErdricksCave(Player);
-	} else if(Player->nTargetMap == *nGarinhamMapArray)
-	{
-		LoadGarinham(Player);
-	} else if(Player->nTargetMap == *nKolMapArray )
-	{
-		LoadKol(Player);
-	} else if(Player->nTargetMap == *nHauksnessMapArray)
-	{
-		LoadHauksness(Player);
-	} else if(Player->nTargetMap == *nSwampCaveMapArray )
-	{
-		LoadSwampCave(Player);
-	} else if(Player->nTargetMap == *nRockMountainCaveMapArray )
-	{
-		LoadRockMountainCave(Player);
-	} else if(Player->nTargetMap == *nRimuldarMapArray )
-	{
-		LoadRimuldar(Player);
-	} else if(Player->nTargetMap == *nCantlinMapArray )
-	{
-		LoadCantlin(Player);
-	} else if( Player->nTargetMap == *nWorldMapArray )
+	if( Player->nTargetMap == cnMapWorld )
 	{
 		Player->nTargetY = Player->nOutsideY;
 		Player->nTargetX = Player->nOutsideX;
-		LoadWorldMap(Player);
-	} else if( Player->nTargetMap == *nNorthernShrineMapArray )
-	{
-		LoadNorthernShrine(Player);
-	} else if( Player->nTargetMap == *nSouthernShrineMapArray )
-	{
-		LoadSouthernShrine(Player);
-	} else if( Player->nTargetMap == *nTantegelMapArray )
-	{
-		LoadTantegelMap(Player);
 	}
 
 	// Actually load the map data
 	LoadMap(wCamera, sTileIndex, Player);
 	return;
-}
-
-void LoadBrecconaryMap( cPlayer *Player )
-{
-	Player->nTargetMap = *nBrecconaryMapArray;
-	Player->nTargetMapHeight = cnBrecconaryMapHeight;
-	Player->nTargetMapWidth = cnBrecconaryMapWidth;
-	Player->nTargetActors = cnBrecconaryActors;
-	Player->nTargetActorList = *nBrecconaryActorList;
-	Player->nTargetChests = cnBrecconaryChests;
-	Player->nTargetChestList = *nBrecconaryChestList;
-	Player->nTargetStairs = cnBrecconaryStairs;
-	Player->nTargetStairList = nBrecconaryStairArray;
-}
-
-void LoadCantlin( cPlayer *Player )
-{
-	Player->nTargetMap = *nCantlinMapArray;
-	Player->nTargetMapHeight = cnCantlinMapHeight;
-	Player->nTargetMapWidth = cnCantlinMapWidth;
-	Player->nTargetActors = cnCantlinActors;
-	Player->nTargetActorList = *nCantlinActorList;
-	Player->nTargetChests = cnCantlinChests;
-	Player->nTargetChestList = *nCantlinChestList;
-	Player->nTargetStairs = cnCantlinStairs;
-	Player->nTargetStairList = nCantlinStairArray;
-}
-
-void LoadCharlockCastle( cPlayer *Player )
-{
-	Player->nTargetMap = *nCharlockCastleMapArray;
-	Player->nTargetMapHeight = cnCharlockCastleMapHeight;
-	Player->nTargetMapWidth = cnCharlockCastleMapWidth;
-	Player->nTargetActors = cnCharlockCastleActors;
-	Player->nTargetActorList = *nCharlockCastleActorList;
-	Player->nTargetChests = cnCharlockCastleChests;
-	Player->nTargetChestList = *nCharlockCastleChestList;
-	// If we've defeated the dragon lord, get rid on him from the map
-	if(Player->nProgress >= 10)
-		nCharlockCastleActorList[0][0] = 0;
-}
-
-void LoadErdricksCave( cPlayer *Player )
-{
-	Player->nTargetMap = *nErdricksCaveMapArray;
-	Player->nTargetMapHeight = cnErdricksCaveMapHeight;
-	Player->nTargetMapWidth = cnErdricksCaveMapWidth;
-	Player->nTargetActors = cnErdricksCaveActors;
-	Player->nTargetActorList = *nErdricksCaveActorList;
-	Player->nTargetChests = cnErdricksCaveChests;
-	Player->nTargetChestList = *nErdricksCaveChestList;
-	Player->nTargetStairs = cnErdricksCaveStairs;
-	Player->nTargetStairList = nErdricksCaveStairArray;
-	Player->bInCave = true;
-}
-
-void LoadGarinham( cPlayer *Player )
-{
-	Player->nTargetMap = *nGarinhamMapArray;
-	Player->nTargetMapHeight = cnGarinhamMapHeight;
-	Player->nTargetMapWidth = cnGarinhamMapWidth;
-	Player->nTargetActors = cnGarinhamActors;
-	Player->nTargetActorList = *nGarinhamActorList;
-	Player->nTargetChests = cnGarinhamChests;
-	Player->nTargetChestList = *nGarinhamChestList;
-}
-
-void LoadHauksness( cPlayer *Player )
-{
-	Player->nTargetMap = *nHauksnessMapArray;
-	Player->nTargetMapHeight = cnHauksnessMapHeight;
-	Player->nTargetMapWidth = cnHauksnessMapWidth;
-	Player->nTargetActors = cnHauksnessActors;
-	Player->nTargetActorList = *nHauksnessActorList;
-	Player->nTargetChests = cnHauksnessChests;
-	Player->nTargetChestList = *nHauksnessChestList;
-	Player->nTargetStairs = cnHauksnessStairs;
-	Player->nTargetStairList = nHauksnessStairArray;
-}
-
-void LoadKol( cPlayer *Player )
-{
-	Player->nTargetMap = *nKolMapArray;
-	Player->nTargetMapHeight = cnKolMapHeight;
-	Player->nTargetMapWidth = cnKolMapWidth;
-	Player->nTargetActors = cnKolActors;
-	Player->nTargetActorList = *nKolActorList;
-	Player->nTargetChests = cnKolChests;
-	Player->nTargetChestList = *nKolChestList;
-	Player->nTargetStairs = cnKolStairs;
-	Player->nTargetStairList = nKolStairArray;
-}
-
-void LoadNorthernShrine( cPlayer *Player )
-{
-	Player->nTargetMap = *nNorthernShrineMapArray;
-	Player->nTargetMapHeight = cnNorthernShrineMapHeight;
-	Player->nTargetMapWidth = cnNorthernShrineMapWidth;
-	Player->nTargetActors = cnNorthernShrineActors;
-	Player->nTargetActorList = *nNorthernShrineActorList;
-	Player->nTargetChests = cnNorthernShrineChests;
-	Player->nTargetChestList = *nNorthernShrineChestList;
-	Player->nTargetStairs = cnNorthernShrineStairs;
-	Player->nTargetStairList = nNorthernShrineStairArray;
-}
-
-void LoadRimuldar( cPlayer *Player )
-{
-	Player->nTargetMap = *nRimuldarMapArray;
-	Player->nTargetMapHeight = cnRimuldarMapHeight;
-	Player->nTargetMapWidth = cnRimuldarMapWidth;
-	Player->nTargetActors = cnRimuldarActors;
-	Player->nTargetActorList = *nRimuldarActorList;
-	Player->nTargetChests = cnRimuldarChests;
-	Player->nTargetChestList = *nRimuldarChestList;
-	Player->nTargetStairs = cnRimuldarStairs;
-	Player->nTargetStairList = nRimuldarStairArray;
-}
-
-void LoadRockMountainCave( cPlayer *Player )
-{
-	Player->nTargetMap = *nRockMountainCaveMapArray;
-	Player->nTargetMapHeight = cnRockMountainCaveMapHeight;
-	Player->nTargetMapWidth = cnRockMountainCaveMapWidth;
-	Player->nTargetActors = cnRockMountainCaveActors;
-	Player->nTargetActorList = *nRockMountainCaveActorList;
-	Player->nTargetChests = cnRockMountainCaveChests;
-	Player->nTargetChestList = *nRockMountainCaveChestList;
-	Player->nTargetStairs = cnRockMountainCaveStairs;
-	Player->nTargetStairList = nRockMountainCaveStairArray;
-	Player->bInCave = true;
-}
-
-void LoadSouthernShrine( cPlayer *Player )
-{
-	Player->nTargetMap = *nSouthernShrineMapArray;
-	Player->nTargetMapHeight = cnSouthernShrineMapHeight;
-	Player->nTargetMapWidth = cnSouthernShrineMapWidth;
-	Player->nTargetActors = cnSouthernShrineActors;
-	Player->nTargetActorList = *nSouthernShrineActorList;
-	Player->nTargetChests = cnSouthernShrineChests;
-	Player->nTargetChestList = *nSouthernShrineChestList;
-	Player->nTargetStairs = cnSouthernShrineStairs;
-	Player->nTargetStairList = nSouthernShrineStairArray;
-}
-
-void LoadSwampCave( cPlayer *Player )
-{
-	Player->nTargetMap = *nSwampCaveMapArray;
-	Player->nTargetMapHeight = cnSwampCaveMapHeight;
-	Player->nTargetMapWidth = cnSwampCaveMapWidth;
-	Player->nTargetActors = cnSwampCaveActors;
-	Player->nTargetActorList = *nSwampCaveActorList;
-	Player->nTargetChests = cnSwampCaveChests;
-	Player->nTargetChestList = *nSwampCaveChestList;
-	Player->nTargetStairs = cnSwampCaveStairs;
-	Player->nTargetStairList = nSwampCaveStairArray;
-	Player->bInCave = true;
-}
-
-void LoadTantegelMap( cPlayer *Player )
-{
-	Player->nTargetMap = *nTantegelMapArray;
-	Player->nTargetMapHeight = cnTantegelMapHeight;
-	Player->nTargetMapWidth = cnTantegelMapWidth;
-	Player->nTargetActors = cnTantegelActors;
-	Player->nTargetActorList = *nTantegelActorList;
-	Player->nTargetChests = cnTantegelChests;
-	Player->nTargetChestList = *nTantegelChestList;
-	Player->nTargetStairs = cnTantegelStairs;
-	Player->nTargetStairList = nTantegelStairArray;
-
-	// If the player has already left the throne room at least once, get rid of starting stuff
-	if(Player->nProgress > 0)
-	{
-		nTantegelMapArray[57][17] = cnTileBrickFloor;
-		nTantegelChestList[6][0] = cnItemNone;
-		nTantegelChestList[7][0] = cnItemNone;
-		nTantegelChestList[8][0] = cnItemNone;
-	}
-
-	// If we've saved the princess, make sure she loads.
-	if(Player->bPrincessSaved == true)
-		nTantegelActorList[4][0] = 1;
-}
-
-void LoadWorldMap( cPlayer *Player )
-{
-	Player->nTargetMap = *nWorldMapArray;
-	Player->nTargetMapHeight = cnWorldMapHeight;
-	Player->nTargetMapWidth = cnWorldMapWidth;
-	Player->nTargetActors = cnWorldActors;
-	Player->nTargetActorList = *nWorldActorList;
-	Player->nTargetChests = cnWorldChests;
-	Player->nTargetChestList = *nWorldChestList;
-	Player->nTargetStairs = cnWorldStairs;
-	Player->nTargetStairList = nWorldStairArray;
-	Player->bInCave = false;
 }
 
 void TeleportPlayer(cPlayer *Player, int nTileValue)
@@ -852,19 +689,13 @@ void UpdateActor( cActor *CurrentActor, TILE_TYPE sTileIndex[], cPlayer *Player,
 void LoadMap(WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player)
 {
 	// First, let's load the appropriate map data to the global map array
-	int nCounter = 0;
-	for(int y=0; y < Player->nTargetMapHeight; y++)
+	int nTargetMap = Player->nTargetMap;
+	for(int y=0; y < p_cMapList[nTargetMap]->nMapHeight; y++)
 	{
-		for(int x=0; x < Player->nTargetMapWidth; x++)
+		for(int x=0; x < p_cMapList[nTargetMap]->nMapWidth; x++)
 		{
-			nGlobalMapArray[y][x] = *(Player->nTargetMap+nCounter);
-			nCounter++;
+			nGlobalMapArray[y][x] = p_cMapList[nTargetMap]->nMapLayout[y][x];
 		}
-	}
-
-	if(Player->nTargetMap == *nWorldMapArray && Player->bRainbowDrop == true)
-	{
-		nGlobalMapArray[56][78] = cnTileBridge;
 	}
 
 	// Next, let's reposition the camera to the correct location
@@ -883,39 +714,25 @@ void LoadMap(WINDOW *wCamera, TILE_TYPE sTileIndex[], cPlayer *Player)
 
 void LoadActors(cPlayer *Player){
 	// Actor handling for when we change maps
-	int nTempCharacterArray[Player->nTargetActors][cnBasicActorAttributes];
-	int nCount = 0;
-	// There may be a better way to do this, but this is what works for me
-	// I have a pointer to an array holding info about the actors on the current map
-	// To make it easier for me to load that info into the appropriate actor, I'm
-	// loading the info from the pointed to array into a temporary array before I load that
-	// info into an actor.
-	for(int y = 0; y < (Player->nTargetActors); y++)
-	{
-		for(int x = 0; x < cnBasicActorAttributes; x++)
-		{
-			nTempCharacterArray[y][x] = *(Player->nTargetActorList+nCount);
-			nCount++;
-		}
-	}
-	// OK, let's load the info into the appropriate actor now.
+	int nTargetMap = Player->nTargetMap;
+
 	for(int i = 0; i < cnMaxActors; i++)
 	{
 		// If we're trying to load info about an actor that doesn't exist on the map, set it to not exist
-		if(Player->nTargetActors < i-1)
+		if(p_cMapList[nTargetMap]->nActors < i-1)
 		{
 			p_cActorList[i]->bExists = false;
 		// Otherwise, load the info about the actor into the appropriate actor
 		} else {
-			p_cActorList[i]->bExists = nTempCharacterArray[i][0];
-			p_cActorList[i]->nCostume = nTempCharacterArray[i][1];
-			p_cActorList[i]->nInitialPositionY = nTempCharacterArray[i][2];
-			p_cActorList[i]->nPositionY = nTempCharacterArray[i][2];
-			p_cActorList[i]->nInitialPositionX = nTempCharacterArray[i][3];
-			p_cActorList[i]->nPositionX = nTempCharacterArray[i][3];
-			p_cActorList[i]->nMovementPattern = nTempCharacterArray[i][4];
-			p_cActorList[i]->bIsMerchant = nTempCharacterArray[i][5];
-			p_cActorList[i]->nConversation = nTempCharacterArray[i][6];
+			p_cActorList[i]->bExists = p_cMapList[nTargetMap]->sActorList[i].bExists;
+			p_cActorList[i]->nCostume = p_cMapList[nTargetMap]->sActorList[i].nCostume;
+			p_cActorList[i]->nInitialPositionY = p_cMapList[nTargetMap]->sActorList[i].nInitialPositionY;
+			p_cActorList[i]->nPositionY = p_cMapList[nTargetMap]->sActorList[i].nPositionY;
+			p_cActorList[i]->nInitialPositionX = p_cMapList[nTargetMap]->sActorList[i].nInitialPositionX;
+			p_cActorList[i]->nPositionX = p_cMapList[nTargetMap]->sActorList[i].nPositionX;
+			p_cActorList[i]->nMovementPattern = p_cMapList[nTargetMap]->sActorList[i].nMovementPattern;
+			p_cActorList[i]->bIsMerchant = p_cMapList[nTargetMap]->sActorList[i].bIsMerchant;
+			p_cActorList[i]->nConversation = p_cMapList[nTargetMap]->sActorList[i].nConversation;
 		}
 	}
 	return;
@@ -925,20 +742,11 @@ void LoadChests(cPlayer *Player)
 {
 	// Last but not least, let's load chest/item data
 	// First, we should probably wipe existing chests/items from the map
-	memset( nGlobalItemArray, 0, sizeof(nGlobalItemArray));
-	// We're going to basically duplicate the character loading process
-	int nTempChestArray[Player->nTargetChests][cnChestAttributes];
-	int nCount = 0;
-	// Load our temporary array
-	for(int y = 0; y < (Player->nTargetChests); y++)
-	{
-		for(int x = 0; x < cnChestAttributes; x++)
-		{
-			nTempChestArray[y][x] = *(Player->nTargetChestList+nCount);
-			nCount++;
-		}
-	}
+	nGlobalItemArray.resize(cnGlobalMapHeight, std::vector<int>(cnGlobalMapWidth, 0));
+	
 	// Now let's load the chest data to the appropriate chest object
+
+	int nTargetMap = Player->nTargetMap;
 
 	for(int i = 0; i < cnMaxChests; i++)
 	{
@@ -952,11 +760,11 @@ void LoadChests(cPlayer *Player)
 			p_cChestList[i]->nPositionX = 0;
 		// Otherwise, load the info about the Chest into the appropriate Chest
 		} else {
-			p_cChestList[i]->nItemType = nTempChestArray[i][0];
-			p_cChestList[i]->nGoldMin = nTempChestArray[i][1];
-			p_cChestList[i]->nGoldMax = nTempChestArray[i][2];
-			p_cChestList[i]->nPositionY = nTempChestArray[i][3];
-			p_cChestList[i]->nPositionX = nTempChestArray[i][4];
+			p_cChestList[i]->nItemType = p_cMapList[nTargetMap]->sChestList[i].nItemType;
+			p_cChestList[i]->nGoldMin = p_cMapList[nTargetMap]->sChestList[i].nGoldMin;
+			p_cChestList[i]->nGoldMax = p_cMapList[nTargetMap]->sChestList[i].nGoldMax;
+			p_cChestList[i]->nPositionY = p_cMapList[nTargetMap]->sChestList[i].nPositionY;
+			p_cChestList[i]->nPositionX = p_cMapList[nTargetMap]->sChestList[i].nPositionX;
 			// While we're at it, let's actually place the chest on the item map
 			nGlobalItemArray[p_cChestList[i]->nPositionY][p_cChestList[i]->nPositionX] = i;
 		}
@@ -1905,6 +1713,8 @@ void UseStairs(WINDOW *wCamera, WINDOW *wAlert, TILE_TYPE sTileIndex[], cPlayer 
 	int nPlayerX = nCameraX + Player->sHero.nPositionX;
 	int nPlayerY = nCameraY + Player->sHero.nPositionY;
 	int nTileValue = nGlobalMapArray[nPlayerY][nPlayerX];
+
+	int nTargetMap = Player->nTargetMap;
 	//mvwprintw(wAlert, 0, 0, "Player Position: %d, %d",nPlayerY, nPlayerX);
 	//wgetch(wAlert);
 	if( nTileValue != cnTileStairDown && nTileValue != cnTileStairUp )
@@ -1917,19 +1727,19 @@ void UseStairs(WINDOW *wCamera, WINDOW *wAlert, TILE_TYPE sTileIndex[], cPlayer 
 		ClearWindow(wAlert, cnAlertWindowHeight, cnAlertWindowWidth);
 
 	} else {
-		for( int i = 0; i < Player->nTargetStairs; i++ )
+		for( int i = 0; i < p_cMapList[nTargetMap]->nStairs; i++ )
 		{
-			if( nPlayerY == Player->nTargetStairList[i].nOriginY && nPlayerX == Player->nTargetStairList[i].nOriginX )
+			if( nPlayerY == p_cMapList[nTargetMap]->sStairList[i].nOriginY && nPlayerX == p_cMapList[nTargetMap]->sStairList[i].nOriginX )
 			{
-				nCameraY = Player->nTargetStairList[i].nDestinationY;
-				nCameraX = Player->nTargetStairList[i].nDestinationX;
-				Player->nTargetY = Player->nTargetStairList[i].nDestinationY;
-				Player->nTargetX = Player->nTargetStairList[i].nDestinationX;
+				nCameraY = p_cMapList[nTargetMap]->sStairList[i].nDestinationY;
+				nCameraX = p_cMapList[nTargetMap]->sStairList[i].nDestinationX;
+				Player->nTargetY = p_cMapList[nTargetMap]->sStairList[i].nDestinationY;
+				Player->nTargetX = p_cMapList[nTargetMap]->sStairList[i].nDestinationX;
 				
-				Player->bInCave = Player->nTargetStairList[i].bInCave;
-				if( Player->nTargetMap != Player->nTargetStairList[i].nDestinationMap )
+				Player->bInCave = p_cMapList[nTargetMap]->sStairList[i].bInCave;
+				if( Player->nTargetMap != p_cMapList[nTargetMap]->sStairList[i].nDestinationMap )
 				{
-					Player->nTargetMap = Player->nTargetStairList[i].nDestinationMap;
+					Player->nTargetMap = p_cMapList[nTargetMap]->sStairList[i].nDestinationMap;
 					ChangeMap( wCamera, sTileIndex, Player, nTileValue );
 					return;
 				}
@@ -1977,7 +1787,8 @@ void SearchGround(WINDOW *wAlert, cPlayer *Player)
 	{
 		mvwprintw(wAlert, 4, 1, "There is a treasure");
 		mvwprintw(wAlert, 5, 1, "box.");
-	} else if(Player->nTargetMap == *nCharlockCastleMapArray && nCameraY == 1 && nCameraX == 9)
+	//	TODO - Figure out a way to not have this manually entered "secret". 
+	} else if(Player->nTargetMap == cnMapCharlockCastle && nCameraY == 1 && nCameraX == 9)
 	{
 		mvwprintw(wAlert, 4, 1, "%s discovers the", Player->sHero.p_szName);
 		mvwprintw(wAlert, 5, 1, "Secret Passage.");
@@ -2364,7 +2175,7 @@ void UseRainbowDrop(WINDOW *wCamera, WINDOW *wAlert, TILE_TYPE sTileIndex[], int
 	mvwprintw(wAlert, 3, 1, "the sky.");
 	mvwaddch(wAlert, 4, cnAlertWindowWidth/2, ACS_DARROW | A_BLINK);
 	wgetch(wAlert);
-	if( Player->nTargetMap == *nWorldMapArray && nPlayerY == 56 && nPlayerX == 79)
+	if( Player->nTargetMap == cnMapWorld && nPlayerY == 56 && nPlayerX == 79)
 	{
 		Player->bRainbowDrop = true;
 		Player->nTargetX = nPlayerX - 14;
@@ -2379,5 +2190,346 @@ void UseRainbowDrop(WINDOW *wCamera, WINDOW *wAlert, TILE_TYPE sTileIndex[], int
 	}
 	ClearWindow(wAlert, cnAlertWindowHeight, cnAlertWindowWidth);
 	return;
+}
+
+void InitializeMaps()
+{
+	for(int i = 0; i < cnMaps; i++)
+	{
+		cMap *p_cNewMap = new cMap();
+		p_cMapList[i] = p_cNewMap;
+	}
+
+	LoadBrecconaryMap();
+	p_cMapList[cnMapBrecconary]->InitializeMap();
+	LoadCantlin();
+	p_cMapList[cnMapCantlin]->InitializeMap();
+	LoadCharlockCastle();
+	p_cMapList[cnMapCharlockCastle]->InitializeMap();
+	LoadErdricksCave();
+	p_cMapList[cnMapErdricksCave]->InitializeMap();
+	LoadGarinham();
+	p_cMapList[cnMapGarinham]->InitializeMap();
+	LoadHauksness();
+	p_cMapList[cnMapHauksness]->InitializeMap();
+	LoadKol();
+	p_cMapList[cnMapKol]->InitializeMap();
+	LoadNorthernShrine();
+	p_cMapList[cnMapNorthernShrine]->InitializeMap();
+	LoadRimuldar();
+	p_cMapList[cnMapRimuldar]->InitializeMap();
+	LoadRockMountainCave();
+	p_cMapList[cnMapRockMountainCave]->InitializeMap();
+	LoadSouthernShrine();
+	p_cMapList[cnMapSouthernShrine]->InitializeMap();
+	LoadSwampCave();
+	p_cMapList[cnMapSwampCave]->InitializeMap();
+	LoadTantegelMap();
+	p_cMapList[cnMapTantegel]->InitializeMap();
+	LoadWorldMap();
+	p_cMapList[cnMapWorld]->InitializeMap();
+
+	return;
+}
+
+void LoadBrecconaryMap()
+{
+	nTargetMap = *nBrecconaryMapArray;
+	nTargetMapHeight = cnBrecconaryMapHeight;
+	nTargetMapWidth = cnBrecconaryMapWidth;
+	nTargetActors = cnBrecconaryActors;
+	nTargetActorList = *nBrecconaryActorList;
+	nTargetChests = cnBrecconaryChests;
+	nTargetChestList = *nBrecconaryChestList;
+	nTargetStairs = cnBrecconaryStairs;
+	nTargetStairList = *nBrecconaryStairArray;
+}
+
+void LoadCantlin()
+{
+	nTargetMap = *nCantlinMapArray;
+	nTargetMapHeight = cnCantlinMapHeight;
+	nTargetMapWidth = cnCantlinMapWidth;
+	nTargetActors = cnCantlinActors;
+	nTargetActorList = *nCantlinActorList;
+	nTargetChests = cnCantlinChests;
+	nTargetChestList = *nCantlinChestList;
+	nTargetStairs = cnCantlinStairs;
+	nTargetStairList = *nCantlinStairArray;
+}
+
+void LoadCharlockCastle()
+{
+	nTargetMap = *nCharlockCastleMapArray;
+	nTargetMapHeight = cnCharlockCastleMapHeight;
+	nTargetMapWidth = cnCharlockCastleMapWidth;
+	nTargetActors = cnCharlockCastleActors;
+	nTargetActorList = *nCharlockCastleActorList;
+	nTargetChests = cnCharlockCastleChests;
+	nTargetChestList = *nCharlockCastleChestList;
+	nTargetStairs = cnCharlockCastleStairs;
+	nTargetStairList = *nCharlockCastleStairArray;
+}
+
+void LoadErdricksCave()
+{
+	nTargetMap = *nErdricksCaveMapArray;
+	nTargetMapHeight = cnErdricksCaveMapHeight;
+	nTargetMapWidth = cnErdricksCaveMapWidth;
+	nTargetActors = cnErdricksCaveActors;
+	nTargetActorList = *nErdricksCaveActorList;
+	nTargetChests = cnErdricksCaveChests;
+	nTargetChestList = *nErdricksCaveChestList;
+	nTargetStairs = cnErdricksCaveStairs;
+	nTargetStairList = *nErdricksCaveStairArray;
+}
+
+void LoadGarinham()
+{
+	nTargetMap = *nGarinhamMapArray;
+	nTargetMapHeight = cnGarinhamMapHeight;
+	nTargetMapWidth = cnGarinhamMapWidth;
+	nTargetActors = cnGarinhamActors;
+	nTargetActorList = *nGarinhamActorList;
+	nTargetChests = cnGarinhamChests;
+	nTargetChestList = *nGarinhamChestList;
+}
+
+void LoadHauksness()
+{
+	nTargetMap = *nHauksnessMapArray;
+	nTargetMapHeight = cnHauksnessMapHeight;
+	nTargetMapWidth = cnHauksnessMapWidth;
+	nTargetActors = cnHauksnessActors;
+	nTargetActorList = *nHauksnessActorList;
+	nTargetChests = cnHauksnessChests;
+	nTargetChestList = *nHauksnessChestList;
+	nTargetStairs = cnHauksnessStairs;
+	nTargetStairList = *nHauksnessStairArray;
+}
+
+void LoadKol()
+{
+	nTargetMap = *nKolMapArray;
+	nTargetMapHeight = cnKolMapHeight;
+	nTargetMapWidth = cnKolMapWidth;
+	nTargetActors = cnKolActors;
+	nTargetActorList = *nKolActorList;
+	nTargetChests = cnKolChests;
+	nTargetChestList = *nKolChestList;
+	nTargetStairs = cnKolStairs;
+	nTargetStairList = *nKolStairArray;
+}
+
+void LoadNorthernShrine()
+{
+	nTargetMap = *nNorthernShrineMapArray;
+	nTargetMapHeight = cnNorthernShrineMapHeight;
+	nTargetMapWidth = cnNorthernShrineMapWidth;
+	nTargetActors = cnNorthernShrineActors;
+	nTargetActorList = *nNorthernShrineActorList;
+	nTargetChests = cnNorthernShrineChests;
+	nTargetChestList = *nNorthernShrineChestList;
+	nTargetStairs = cnNorthernShrineStairs;
+	nTargetStairList = *nNorthernShrineStairArray;
+}
+
+void LoadRimuldar()
+{
+	nTargetMap = *nRimuldarMapArray;
+	nTargetMapHeight = cnRimuldarMapHeight;
+	nTargetMapWidth = cnRimuldarMapWidth;
+	nTargetActors = cnRimuldarActors;
+	nTargetActorList = *nRimuldarActorList;
+	nTargetChests = cnRimuldarChests;
+	nTargetChestList = *nRimuldarChestList;
+	nTargetStairs = cnRimuldarStairs;
+	nTargetStairList = *nRimuldarStairArray;
+}
+
+void LoadRockMountainCave()
+{
+	nTargetMap = *nRockMountainCaveMapArray;
+	nTargetMapHeight = cnRockMountainCaveMapHeight;
+	nTargetMapWidth = cnRockMountainCaveMapWidth;
+	nTargetActors = cnRockMountainCaveActors;
+	nTargetActorList = *nRockMountainCaveActorList;
+	nTargetChests = cnRockMountainCaveChests;
+	nTargetChestList = *nRockMountainCaveChestList;
+	nTargetStairs = cnRockMountainCaveStairs;
+	nTargetStairList = *nRockMountainCaveStairArray;
+}
+
+void LoadSouthernShrine()
+{
+	nTargetMap = *nSouthernShrineMapArray;
+	nTargetMapHeight = cnSouthernShrineMapHeight;
+	nTargetMapWidth = cnSouthernShrineMapWidth;
+	nTargetActors = cnSouthernShrineActors;
+	nTargetActorList = *nSouthernShrineActorList;
+	nTargetChests = cnSouthernShrineChests;
+	nTargetChestList = *nSouthernShrineChestList;
+	nTargetStairs = cnSouthernShrineStairs;
+	nTargetStairList = *nSouthernShrineStairArray;
+}
+
+void LoadSwampCave()
+{
+	nTargetMap = *nSwampCaveMapArray;
+	nTargetMapHeight = cnSwampCaveMapHeight;
+	nTargetMapWidth = cnSwampCaveMapWidth;
+	nTargetActors = cnSwampCaveActors;
+	nTargetActorList = *nSwampCaveActorList;
+	nTargetChests = cnSwampCaveChests;
+	nTargetChestList = *nSwampCaveChestList;
+	nTargetStairs = cnSwampCaveStairs;
+	nTargetStairList = *nSwampCaveStairArray;
+}
+
+void LoadTantegelMap()
+{
+	nTargetMap = *nTantegelMapArray;
+	nTargetMapHeight = cnTantegelMapHeight;
+	nTargetMapWidth = cnTantegelMapWidth;
+	nTargetActors = cnTantegelActors;
+	nTargetActorList = *nTantegelActorList;
+	nTargetChests = cnTantegelChests;
+	nTargetChestList = *nTantegelChestList;
+	nTargetStairs = cnTantegelStairs;
+	nTargetStairList = *nTantegelStairArray;
+}
+
+void LoadWorldMap()
+{
+	nTargetMap = *nWorldMapArray;
+	nTargetMapHeight = cnWorldMapHeight;
+	nTargetMapWidth = cnWorldMapWidth;
+	nTargetActors = cnWorldActors;
+	nTargetActorList = *nWorldActorList;
+	nTargetChests = cnWorldChests;
+	nTargetChestList = *nWorldChestList;
+	nTargetStairs = cnWorldStairs;
+	nTargetStairList = *nWorldStairArray;
+}
+
+void cMap::InitializeMap()
+{
+	this->nMapHeight = nTargetMapHeight;
+	this->nMapWidth = nTargetMapWidth;
+	this->nActors = nTargetActors;
+	this->nChests = nTargetChests;
+	this->nStairs = nTargetStairs;
+
+	this->nMapLayout.resize(this->nMapHeight, std::vector<int>(this->nMapWidth, 0));
+
+	int nCounter = 0;
+
+	// Load the map array into the object's map vector
+	for(int y = 0; y < this->nMapHeight; y++)
+	{
+		for(int x = 0; x < this->nMapWidth; x++)
+		{
+			this->nMapLayout[y][x] = *(nTargetMap+nCounter);
+			nCounter++;
+		}
+	}
+
+	// Load the actor array into the object's actor struct
+
+	// There may be a better way to do this, but this is what works for me
+	// I have a pointer to an array holding info about the actors on the current map
+	// To make it easier for me to load that info into the appropriate actor, I'm
+	// loading the info from the pointed to array into a temporary array before I load that
+	// info into an actor.
+
+	int nTempCharacterArray[nTargetActors][cnBasicActorAttributes];
+	int nCount = 0;
+
+	for(int y = 0; y < (nTargetActors); y++)
+	{
+		for(int x = 0; x < cnBasicActorAttributes; x++)
+		{
+			nTempCharacterArray[y][x] = *(nTargetActorList+nCount);
+			nCount++;
+		}
+	}
+	// OK, let's load the info into the appropriate actor now.
+	for(int i = 0; i < cnMaxActors; i++)
+	{
+		// If we're trying to load info about an actor that doesn't exist on the map, set it to not exist
+		if(nTargetActors < i-1)
+		{
+			this->sActorList[i].bExists = false;
+		// Otherwise, load the info about the actor into the appropriate actor
+		} else {
+			this->sActorList[i].bExists = nTempCharacterArray[i][0];
+			this->sActorList[i].nCostume = nTempCharacterArray[i][1];
+			this->sActorList[i].nInitialPositionY = nTempCharacterArray[i][2];
+			this->sActorList[i].nPositionY = nTempCharacterArray[i][2];
+			this->sActorList[i].nInitialPositionX = nTempCharacterArray[i][3];
+			this->sActorList[i].nPositionX = nTempCharacterArray[i][3];
+			this->sActorList[i].nMovementPattern = nTempCharacterArray[i][4];
+			this->sActorList[i].bIsMerchant = nTempCharacterArray[i][5];
+			this->sActorList[i].nConversation = nTempCharacterArray[i][6];
+		}
+	}
+
+	// Load the chest array into the object's chest struct
+	int nTempChestArray[nTargetChests][cnChestAttributes];
+	nCount = 0;
+	// Load our temporary array
+	for(int y = 0; y < (nTargetChests); y++)
+	{
+		for(int x = 0; x < cnChestAttributes; x++)
+		{
+			nTempChestArray[y][x] = *(nTargetChestList+nCount);
+			nCount++;
+		}
+	}
+	// Now let's load the chest data to the appropriate chest object
+
+	for(int i = 0; i < cnMaxChests; i++)
+	{
+		// If we're trying to load info about an Chest that doesn't exist on the map, set it to not exist
+		if(i >= nTargetChests)
+		{
+			this->sChestList[i].nItemType = 0;
+			this->sChestList[i].nGoldMin = 0;
+			this->sChestList[i].nGoldMax = 0;
+			this->sChestList[i].nPositionY = 0;
+			this->sChestList[i].nPositionX = 0;
+		// Otherwise, load the info about the Chest into the appropriate Chest
+		} else {
+			this->sChestList[i].nItemType = nTempChestArray[i][0];
+			this->sChestList[i].nGoldMin = nTempChestArray[i][1];
+			this->sChestList[i].nGoldMax = nTempChestArray[i][2];
+			this->sChestList[i].nPositionY = nTempChestArray[i][3];
+			this->sChestList[i].nPositionX = nTempChestArray[i][4];
+		}
+	}
+
+	int nTempStairArray[nTargetStairs][cnStairAttributes];
+	nCount = 0;
+	// Load our temporary array
+	for(int y = 0; y < (nTargetStairs); y++)
+	{
+		for(int x = 0; x < cnStairAttributes; x++)
+		{
+			nTempStairArray[y][x] = *(nTargetStairList+nCount);
+			nCount++;
+		}
+	}
+
+	// Last but not least, let's load the stair data into the object's stair struct
+	for( int i = 0; i < nTargetStairs; i++ )
+	{
+		this->sStairList[i].nOriginY = nTempStairArray[i][0];
+		this->sStairList[i].nOriginX = nTempStairArray[i][1];
+		this->sStairList[i].nDestinationY = nTempStairArray[i][2];
+		this->sStairList[i].nDestinationX = nTempStairArray[i][3];
+		this->sStairList[i].nDestinationMap = nTempStairArray[i][4];
+		this->sStairList[i].bInCave = nTempStairArray[i][5];
+	}
+
 }
 

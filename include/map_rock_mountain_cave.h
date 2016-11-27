@@ -89,7 +89,25 @@ const int cnRockMountainCaveActors = 0;
 // 5 = bIsMerchant
 // 6 = nConversation
 
-int nRockMountainCaveActorList[cnRockMountainCaveActors][cnBasicActorAttributes] = {
+int nRockMountainCaveActorList[cnRockMountainCaveActors][cnBasicActorAttributes] = {};
+
+const int cnRockMountainCaveStairs = 7;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nRockMountainCaveStairArray[cnRockMountainCaveStairs][cnStairAttributes] = {
+    { 14, 14, 57, 29, cnMapWorld, false },				// Exit to world map
+    { 7, 14, 21, 0, cnMapRockMountainCave, true },
+    { 28, 14, 0, 0, cnMapRockMountainCave, true },
+    { 12, 20, 26, 6, cnMapRockMountainCave, true },
+    { 33, 20, 5, 6, cnMapRockMountainCave, true },
+    { 19, 26, 33, 12, cnMapRockMountainCave, true },
+    { 40, 26, 12, 12, cnMapRockMountainCave, true },
 };
 
 #endif // MAP_ROCK_MOUNTAIN_CAVE_H

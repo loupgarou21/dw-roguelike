@@ -3,8 +3,8 @@
 
 // The actual maximum number of usable chests is one less than cnMaxChests.
 // chest[0] is reserved for when there is no chest.
-const int cnMaxChests = 9;
-const int cnChestAttributes = 5;
+extern const int cnMaxChests = 9;
+extern const int cnChestAttributes = 5;
 
 class cChest
 {

@@ -79,7 +79,20 @@ const int cnSwampCaveActors = 0;
 // 5 = bIsMerchant
 // 6 = nConversation
 
-int nSwampCaveActorList[cnSwampCaveActors][cnBasicActorAttributes] = {
+int nSwampCaveActorList[cnSwampCaveActors][cnBasicActorAttributes] = {};
+
+const int cnSwampCaveStairs = 2;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nSwampCaveStairArray[cnSwampCaveStairs][cnStairAttributes] = {
+    { 7, 14, 44, 104, cnMapWorld, false },			// Exit to world map, North entrance
+    { 36, 14, 49, 104, cnMapWorld, false }			// Exit to world map, South entrance
 };
 
 #endif // MAP_SWAMP_CAVE_H

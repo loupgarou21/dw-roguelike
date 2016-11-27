@@ -128,4 +128,15 @@ const int cnBrecconaryActors =  0;
 // 6 = nConversation
 int nBrecconaryActorList[cnBrecconaryActors][cnBasicActorAttributes] = {};
 
+const int cnBrecconaryStairs = 0;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nBrecconaryStairArray[cnBrecconaryStairs][cnStairAttributes] = {};
+
 #endif // MAP_BRECCONARY_H

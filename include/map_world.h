@@ -179,4 +179,18 @@ const int cnWorldActors =  0;
 // 6 = nConversation
 int nWorldActorList[cnWorldActors][cnBasicActorAttributes] = {};
 
+const int cnWorldStairs = 2;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nWorldStairArray[cnWorldStairs][cnStairAttributes] = {
+    { 8, 95, 9, 4, cnMapNorthernShrine, false },	// Stairs to Northern Shrine
+    { 116, 122, 4, 0, cnMapSouthernShrine, false }	// Stairs to Southern Shrine
+};
+
 #endif

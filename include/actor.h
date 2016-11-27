@@ -3,8 +3,8 @@
 
 // Maximum number of actors in current map
 // We'll just reuse actor slots in every map
-const int cnMaxActors = 27;
-const int cnBasicActorAttributes = 7;
+extern const int cnMaxActors = 27;
+extern const int cnBasicActorAttributes = 7;
 
 class cActor
 {
