@@ -84,4 +84,15 @@ const int cnKolActors =  0;
 // 6 = nConversation
 int nKolActorList[cnKolActors][cnBasicActorAttributes] = {};
 
+const int cnKolStairs = 0;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nKolStairArray[cnKolStairs][cnStairAttributes] = {};
+
 #endif // MAP_KOL_H

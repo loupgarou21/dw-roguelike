@@ -139,4 +139,20 @@ int nTantegelActorList[cnTantegelActors][cnBasicActorAttributes] = {
     {  1,  2,  8, 38,  5,  0, 23 }       // Magic key seller
 };
 
+const int cnTantegelStairs = 4;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nTantegelStairArray[cnTantegelStairs][cnStairAttributes] = {
+    { 58, 21, 7, 7, cnMapTantegel, false },     // Throne room to F1
+    { 14, 21, 51, 7, cnMapTantegel, false },        // F1 to Throne Room
+    { 36, 43, 48, 23, cnMapTantegel, false },       // F1 to B1
+    { 55, 37, 29, 29, cnMapTantegel, false }        // B1 to F1
+};
+
 #endif // MAP_TANTEGEL_H

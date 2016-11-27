@@ -132,4 +132,15 @@ const int cnRimuldarActors =  0;
 // 6 = nConversation
 int nRimuldarActorList[cnRimuldarActors][cnBasicActorAttributes] = {};
 
+const int cnRimuldarStairs = 0;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nRimuldarStairArray[cnRimuldarStairs][cnStairAttributes] = {};
+
 #endif // MAP_RIMULDAR_H

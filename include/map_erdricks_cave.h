@@ -82,7 +82,21 @@ const int cnErdricksCaveActors = 0;
 // 5 = bIsMerchant
 // 6 = nConversation
 
-int nErdricksCaveActorList[cnErdricksCaveActors][cnBasicActorAttributes] = {
+int nErdricksCaveActorList[cnErdricksCaveActors][cnBasicActorAttributes] = {};
+
+const int cnErdricksCaveStairs = 3;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nErdricksCaveStairArray[cnErdricksCaveStairs][cnStairAttributes] = {
+    { 7, 14, 12, 28, cnMapWorld, false },			// Exit to world map
+    { 16, 23, 30, 9, cnMapErdricksCave, true },	// B1 to B2
+    { 37, 23, 9, 9, cnMapErdricksCave, true }		// B2 to B1
 };
 
 #endif // MAP_ERDRICKS_CAVE_H

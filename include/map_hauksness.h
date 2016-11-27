@@ -80,4 +80,15 @@ const int cnHauksnessActors =  0;
 // 6 = nConversation
 int nHauksnessActorList[cnHauksnessActors][cnBasicActorAttributes] = {};
 
+const int cnHauksnessStairs = 0;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nHauksnessStairArray[cnHauksnessStairs][cnStairAttributes] = {};
+
 #endif // MAP_HAUKSNESS_H

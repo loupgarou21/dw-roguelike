@@ -124,4 +124,15 @@ const int cnCantlinActors =  0;
 // 6 = nConversation
 int nCantlinActorList[cnCantlinActors][cnBasicActorAttributes] = {};
 
+const int cnCantlinStairs = 0;
+
+// Values corespond to:
+// nStairOriginY
+// nStairOriginX
+// nStairDestinationY
+// nStairDestinationX
+// *nStairDestinationMap
+
+int nCantlinStairArray[cnCantlinStairs][cnStairAttributes] = {};
+
 #endif // MAP_CANTLIN_H

@@ -1,0 +1,198 @@
+
+void LoadBrecconaryMap( cPlayer *Player )
+{
+	Player->nTargetMap = *nBrecconaryMapArray;
+	Player->nTargetMapHeight = cnBrecconaryMapHeight;
+	Player->nTargetMapWidth = cnBrecconaryMapWidth;
+	Player->nTargetActors = cnBrecconaryActors;
+	Player->nTargetActorList = *nBrecconaryActorList;
+	Player->nTargetChests = cnBrecconaryChests;
+	Player->nTargetChestList = *nBrecconaryChestList;
+	Player->nTargetStairs = cnBrecconaryStairs;
+	Player->nTargetStairList = nBrecconaryStairArray;
+}
+
+void LoadCantlin( cPlayer *Player )
+{
+	Player->nTargetMap = *nCantlinMapArray;
+	Player->nTargetMapHeight = cnCantlinMapHeight;
+	Player->nTargetMapWidth = cnCantlinMapWidth;
+	Player->nTargetActors = cnCantlinActors;
+	Player->nTargetActorList = *nCantlinActorList;
+	Player->nTargetChests = cnCantlinChests;
+	Player->nTargetChestList = *nCantlinChestList;
+	Player->nTargetStairs = cnCantlinStairs;
+	Player->nTargetStairList = nCantlinStairArray;
+}
+
+void LoadCharlockCastle( cPlayer *Player )
+{
+	Player->nTargetMap = *nCharlockCastleMapArray;
+	Player->nTargetMapHeight = cnCharlockCastleMapHeight;
+	Player->nTargetMapWidth = cnCharlockCastleMapWidth;
+	Player->nTargetActors = cnCharlockCastleActors;
+	Player->nTargetActorList = *nCharlockCastleActorList;
+	Player->nTargetChests = cnCharlockCastleChests;
+	Player->nTargetChestList = *nCharlockCastleChestList;
+	// If we've defeated the dragon lord, get rid on him from the map
+	if(Player->nProgress >= 10)
+		nCharlockCastleActorList[0][0] = 0;
+}
+
+void LoadErdricksCave( cPlayer *Player )
+{
+	Player->nTargetMap = *nErdricksCaveMapArray;
+	Player->nTargetMapHeight = cnErdricksCaveMapHeight;
+	Player->nTargetMapWidth = cnErdricksCaveMapWidth;
+	Player->nTargetActors = cnErdricksCaveActors;
+	Player->nTargetActorList = *nErdricksCaveActorList;
+	Player->nTargetChests = cnErdricksCaveChests;
+	Player->nTargetChestList = *nErdricksCaveChestList;
+	Player->nTargetStairs = cnErdricksCaveStairs;
+	Player->nTargetStairList = nErdricksCaveStairArray;
+	Player->bInCave = true;
+}
+
+void LoadGarinham( cPlayer *Player )
+{
+	Player->nTargetMap = *nGarinhamMapArray;
+	Player->nTargetMapHeight = cnGarinhamMapHeight;
+	Player->nTargetMapWidth = cnGarinhamMapWidth;
+	Player->nTargetActors = cnGarinhamActors;
+	Player->nTargetActorList = *nGarinhamActorList;
+	Player->nTargetChests = cnGarinhamChests;
+	Player->nTargetChestList = *nGarinhamChestList;
+}
+
+void LoadHauksness( cPlayer *Player )
+{
+	Player->nTargetMap = *nHauksnessMapArray;
+	Player->nTargetMapHeight = cnHauksnessMapHeight;
+	Player->nTargetMapWidth = cnHauksnessMapWidth;
+	Player->nTargetActors = cnHauksnessActors;
+	Player->nTargetActorList = *nHauksnessActorList;
+	Player->nTargetChests = cnHauksnessChests;
+	Player->nTargetChestList = *nHauksnessChestList;
+	Player->nTargetStairs = cnHauksnessStairs;
+	Player->nTargetStairList = nHauksnessStairArray;
+}
+
+void LoadKol( cPlayer *Player )
+{
+	Player->nTargetMap = *nKolMapArray;
+	Player->nTargetMapHeight = cnKolMapHeight;
+	Player->nTargetMapWidth = cnKolMapWidth;
+	Player->nTargetActors = cnKolActors;
+	Player->nTargetActorList = *nKolActorList;
+	Player->nTargetChests = cnKolChests;
+	Player->nTargetChestList = *nKolChestList;
+	Player->nTargetStairs = cnKolStairs;
+	Player->nTargetStairList = nKolStairArray;
+}
+
+void LoadNorthernShrine( cPlayer *Player )
+{
+	Player->nTargetMap = *nNorthernShrineMapArray;
+	Player->nTargetMapHeight = cnNorthernShrineMapHeight;
+	Player->nTargetMapWidth = cnNorthernShrineMapWidth;
+	Player->nTargetActors = cnNorthernShrineActors;
+	Player->nTargetActorList = *nNorthernShrineActorList;
+	Player->nTargetChests = cnNorthernShrineChests;
+	Player->nTargetChestList = *nNorthernShrineChestList;
+	Player->nTargetStairs = cnNorthernShrineStairs;
+	Player->nTargetStairList = nNorthernShrineStairArray;
+}
+
+void LoadRimuldar( cPlayer *Player )
+{
+	Player->nTargetMap = *nRimuldarMapArray;
+	Player->nTargetMapHeight = cnRimuldarMapHeight;
+	Player->nTargetMapWidth = cnRimuldarMapWidth;
+	Player->nTargetActors = cnRimuldarActors;
+	Player->nTargetActorList = *nRimuldarActorList;
+	Player->nTargetChests = cnRimuldarChests;
+	Player->nTargetChestList = *nRimuldarChestList;
+	Player->nTargetStairs = cnRimuldarStairs;
+	Player->nTargetStairList = nRimuldarStairArray;
+}
+
+void LoadRockMountainCave( cPlayer *Player )
+{
+	Player->nTargetMap = *nRockMountainCaveMapArray;
+	Player->nTargetMapHeight = cnRockMountainCaveMapHeight;
+	Player->nTargetMapWidth = cnRockMountainCaveMapWidth;
+	Player->nTargetActors = cnRockMountainCaveActors;
+	Player->nTargetActorList = *nRockMountainCaveActorList;
+	Player->nTargetChests = cnRockMountainCaveChests;
+	Player->nTargetChestList = *nRockMountainCaveChestList;
+	Player->nTargetStairs = cnRockMountainCaveStairs;
+	Player->nTargetStairList = nRockMountainCaveStairArray;
+	Player->bInCave = true;
+}
+
+void LoadSouthernShrine( cPlayer *Player )
+{
+	Player->nTargetMap = *nSouthernShrineMapArray;
+	Player->nTargetMapHeight = cnSouthernShrineMapHeight;
+	Player->nTargetMapWidth = cnSouthernShrineMapWidth;
+	Player->nTargetActors = cnSouthernShrineActors;
+	Player->nTargetActorList = *nSouthernShrineActorList;
+	Player->nTargetChests = cnSouthernShrineChests;
+	Player->nTargetChestList = *nSouthernShrineChestList;
+	Player->nTargetStairs = cnSouthernShrineStairs;
+	Player->nTargetStairList = nSouthernShrineStairArray;
+}
+
+void LoadSwampCave( cPlayer *Player )
+{
+	Player->nTargetMap = *nSwampCaveMapArray;
+	Player->nTargetMapHeight = cnSwampCaveMapHeight;
+	Player->nTargetMapWidth = cnSwampCaveMapWidth;
+	Player->nTargetActors = cnSwampCaveActors;
+	Player->nTargetActorList = *nSwampCaveActorList;
+	Player->nTargetChests = cnSwampCaveChests;
+	Player->nTargetChestList = *nSwampCaveChestList;
+	Player->nTargetStairs = cnSwampCaveStairs;
+	Player->nTargetStairList = nSwampCaveStairArray;
+	Player->bInCave = true;
+}
+
+void LoadTantegelMap( cPlayer *Player )
+{
+	Player->nTargetMap = *nTantegelMapArray;
+	Player->nTargetMapHeight = cnTantegelMapHeight;
+	Player->nTargetMapWidth = cnTantegelMapWidth;
+	Player->nTargetActors = cnTantegelActors;
+	Player->nTargetActorList = *nTantegelActorList;
+	Player->nTargetChests = cnTantegelChests;
+	Player->nTargetChestList = *nTantegelChestList;
+	Player->nTargetStairs = cnTantegelStairs;
+	Player->nTargetStairList = nTantegelStairArray;
+
+	// If the player has already left the throne room at least once, get rid of starting stuff
+	if(Player->nProgress > 0)
+	{
+		nTantegelMapArray[57][17] = cnTileBrickFloor;
+		nTantegelChestList[6][0] = cnItemNone;
+		nTantegelChestList[7][0] = cnItemNone;
+		nTantegelChestList[8][0] = cnItemNone;
+	}
+
+	// If we've saved the princess, make sure she loads.
+	if(Player->bPrincessSaved == true)
+		nTantegelActorList[4][0] = 1;
+}
+
+void LoadWorldMap( cPlayer *Player )
+{
+	Player->nTargetMap = *nWorldMapArray;
+	Player->nTargetMapHeight = cnWorldMapHeight;
+	Player->nTargetMapWidth = cnWorldMapWidth;
+	Player->nTargetActors = cnWorldActors;
+	Player->nTargetActorList = *nWorldActorList;
+	Player->nTargetChests = cnWorldChests;
+	Player->nTargetChestList = *nWorldChestList;
+	Player->nTargetStairs = cnWorldStairs;
+	Player->nTargetStairList = nWorldStairArray;
+	Player->bInCave = false;
+}

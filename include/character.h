@@ -37,7 +37,7 @@ class cPlayer
 		int nGold;
 		int nInventory[cnInventorySlots][2]; // Second field is used if the item type stored in the first field is stackable, tells us how many of the item there are.
 		int nProgress;			// Stored the current progress stage of the player
-		int *nTargetMap;		// When moving between maps, this stores the map we're heading too (and still in, really)
+		int nTargetMap;		// When moving between maps, this stores the map we're heading too (and still in, really)
 		int nTargetMapHeight;
 		int nTargetMapWidth;
 		int nTargetX;			// When moving between maps, this stores the X coordinate we're heading to (well, the X coordinate for the camera anyway)
@@ -47,7 +47,7 @@ class cPlayer
 		int nTargetChests;
 		int *nTargetChestList;
 		int nTargetStairs;
-		STAIRS *nTargetStairList;
+		// STAIRS *nTargetStairList;
 		int nLightRadius;
 		bool bInCave;
 		bool bTransition;		// Keep track of whether or not we just transitioned to a new map.
