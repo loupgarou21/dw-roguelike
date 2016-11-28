@@ -139,8 +139,11 @@ int nTantegelActorList[cnTantegelActors][cnBasicActorAttributes] = {
     {  1,  2,  8, 38,  5,  0, 23 }       // Magic key seller
 };
 
+<<<<<<< HEAD
 // Ignore this comment
 
+=======
+>>>>>>> master
 const int cnTantegelStairs = 4;
 
 // Values corespond to:
