@@ -557,7 +557,7 @@ void TeleportPlayer(cPlayer *Player, int nTileValue)
 
 bool ActorObstruction( int y, int x, cPlayer *Player )
 {
-	for( int i = 0; i < Player->nTargetActors; i++)
+	for( int i = 0; i < p_cMapList[Player->nTargetMap]->nActors; i++)
 	{
 		if( p_cActorList[i]->bExists && p_cActorList[i]->nPositionY == y && p_cActorList[i]->nPositionX == x )
 			return true;
@@ -702,7 +702,7 @@ void LoadChests(cPlayer *Player)
 	for(int i = 0; i < cnMaxChests; i++)
 	{
 		// If we're trying to load info about an Chest that doesn't exist on the map, set it to not exist
-		if(i >= Player->nTargetChests)
+		if(i >= p_cMapList[Player->nTargetMap]->nChests)
 		{
 			p_cChestList[i]->nItemType = 0;
 			p_cChestList[i]->nGoldMin = 0;
@@ -737,6 +737,7 @@ void DrawTile( WINDOW *wCamera, int x, int y, TILE_TYPE sTileIndex[], cPlayer *P
 {
 	// Draw the specified tile in our camera window
 	int nType = nCameraMapArray[y][x];
+	int nTargetMap = Player->nTargetMap;
 	if(Player->bInCave == true && (std::abs(Player->sHero.nPositionY - y) > Player->nLightRadius ||(std::abs(Player->sHero.nPositionX - x)) > Player->nLightRadius))
 	{
 		// If we're in a cave, only draw the tiles within the light radius
@@ -749,7 +750,7 @@ void DrawTile( WINDOW *wCamera, int x, int y, TILE_TYPE sTileIndex[], cPlayer *P
 			mvwaddch(wCamera, y,x, '(' | COLOR_PAIR(11 | A_BOLD));
 
 		// Draw any actors on the screen if they exist
-		for(int i = 0; i < Player->nTargetActors; i++)
+		for(int i = 0; i < p_cMapList[nTargetMap]->nActors; i++)
 		{
 			int nActorY = p_cActorList[i]->nPositionY - nCameraY;
 			int nActorX = p_cActorList[i]->nPositionX - nCameraX;
