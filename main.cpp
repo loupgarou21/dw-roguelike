@@ -313,57 +313,6 @@ int main(void)
 	// 3 - Does this tile cause you to teleport on the current map (bTeleport)
 	// 4 - Does this tile cause a new map to load (bChangeMap)
 	TILE_TYPE sTileIndex[] = {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-		{ ' ' , 1, false, false, false, nullptr, 0, 0 },					// (0) cnTileBlank
-		{ ACS_CKBOARD, 6, true, false, false, nullptr, 0, 0 },				// (1) cnTileBrickFloor
-		{ '#', 1, false, false, false, nullptr, 0, 0 },						// (2) cnTileRockWall
-		{ '.', 2, true, false, false, nullptr, 0, 0 },						// (3) cnTileGrass	
-		{ '#', 2, true, false, false, nullptr, 0, 0 }, 						// (4) cnTileTree
-		{ '~', 5, false, false, false, nullptr, 0, 0 },						// (5) cnTileWater
-		{ ACS_CKBOARD, 7, true, false, false, nullptr, 0, 0 },				// (6) cnTileSand
-		{ ACS_CKBOARD, 14, true, false, false, nullptr, 0, 0 },				// (7) cnTileSwamp
-		{ '/', 13, true, false, false, nullptr, 0, 0 },						// (8) cnTileBarrier
-		{ ACS_CKBOARD, 1, false, false, false, nullptr, 0, 0 },				// (9) cnTileRoof		
-		{ '+', 1, false, false, false, nullptr, 0, 0 }, 					// (10) cnTileDoor
-		{ 'O', 8, false, false, false, nullptr, 0, 0 },						// (11) cnTileWoodDesk
-		{ '$', 9, false, false, false, nullptr, 0, 0 },						// (12) cnTileSignShop
-		{ 'N', 9, false, false, false, nullptr, 0, 0 },						// (13) cnTileSignInn
-		{ '=', 10, true, false, false, nullptr, 0, 0 },						// (14) cnTileBridge
-		{ '<', 1, true, false, false, nullptr, 0, 0 }, 						// (15) cnTileStairUp
-		{ '>', 1, true, false, false, nullptr, 0, 0 },						// (16) cnTileStairDown
-		{ '.', 2, false, false, true, *nWorldMapArray, 0, 0 },			// (17) cnTileGrassExit
-		{ ACS_CKBOARD, 7, false, false, true, *nWorldMapArray, 0, 0 },	// (18) cnTileSandExit
-		{ ACS_CKBOARD, 14, false, false, true, *nWorldMapArray, 0, 0 },	// (19) cnTileSwampExit
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (20) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (21) ** AVAILABLE TILE SLOT **
-		{ 'n', 7, true, false, false, nullptr, 0, 0 },						// (22) cnTileHill
-		{ 'M', 1, false, false, false, nullptr, 0, 0 },						// (23) cnTileMountain
-		{ ACS_PI, 1, true, false, true, *nGarinhamMapArray, 14, 0 },		// (24) cnTileGarinham
-		{ ACS_PI, 1, true, false, true, *nKolMapArray, 23, 19 },			// (25) cnTileKol
-		{ 'C', 1, true, false, true, *nErdricksCaveMapArray, 0, 0 },		// (26) cnTileErdricksCave
-		{ ACS_PI, 1, true, false, true, *nBrecconaryMapArray, 15, 0 },		// (27) cnTileBrecconary
-		{ 'A', 1, true, false, true, *nTantegelMapArray, 29, 10 }, 			// (28) cnTileTantegel
-		{ 'C', 1, true, false, true, *nSwampCaveMapArray, 0, 0 }, 			// (29) cnTileSwampCave1
-		{ 'A', 1, true, false, true, *nCharlockCastleMapArray, 19, 9 }, 	// (30) cnTileCharlock
-		{ 'C', 1, true, false, true, *nSwampCaveMapArray, 29, 0 }, 			// (31) cnTileSwampCave2
-		{ 'C', 1, true, false, true, *nRockMountainCaveMapArray, 7, 0 },	// (32) cnTileRockMountainCave
-		{ ACS_PI, 1, true, false, true, *nRimuldarMapArray, 14, 29 },		// (33) cnTileRimuldar
-		{ ACS_PI, 1, true, false, true, *nHauksnessMapArray, 10, 0 },		// (34) cnTileHauksness
-		{ ACS_PI, 1, true, false, true, *nCantlinMapArray, 0, 15 },			// (35) cnTileCantlin
-		{ '#', 2, false, false, true, *nWorldMapArray, 0, 0 },			// (36) cnTileTreeExit
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (37) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (38) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (39) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (40) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (41) ** AVAILABLE TILE SLOT **
-		{ 'X', 6, false, false, false, nullptr, 0, 0 },						// (42) ** AVAILABLE TILE SLOT **
-		{ ACS_CKBOARD, 6, false, false, true, *nWorldMapArray, 0, 0 },	// (43) cnTileBrickExit
-		{ ACS_CKBOARD, 1, true, true, false, nullptr, 0, 0 },				// (44) cnTileHouseIn
-		{ ' ', 1, true, true, false, nullptr, 0, 0 }						// (45) cnTileHouseOut
-=======
->>>>>>> master
 		{ ' ' , 1, false, false, false, cnMapNone, 0, 0 },					// (0) cnTileBlank
 		{ ACS_CKBOARD, 6, true, false, false, cnMapNone, 0, 0 },				// (1) cnTileBrickFloor
 		{ '#', 1, false, false, false, cnMapNone, 0, 0 },						// (2) cnTileRockWall
@@ -410,10 +359,7 @@ int main(void)
 		{ ACS_CKBOARD, 6, false, false, true, cnMapWorld, 0, 0 },			// (43) cnTileBrickExit
 		{ ACS_CKBOARD, 1, true, true, false, cnMapNone, 0, 0 },				// (44) cnTileHouseIn
 		{ ' ', 1, true, true, false, cnMapNone, 0, 0 }						// (45) cnTileHouseOut
-<<<<<<< HEAD
-=======
->>>>>>> Create-map-class
->>>>>>> master
+
 	};
 
 	int nDeltaX, nDeltaY;			// This is used for storing player movement
