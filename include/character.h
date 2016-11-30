@@ -42,12 +42,6 @@ class cPlayer
 		int nTargetMapWidth;
 		int nTargetX;			// When moving between maps, this stores the X coordinate we're heading to (well, the X coordinate for the camera anyway)
 		int nTargetY;			// When moving between maps, this stores the Y coordinate we're heading to (well, the Y coordinate for the camera anyway)
-		int nTargetActors;
-		int *nTargetActorList;
-		int nTargetChests;
-		int *nTargetChestList;
-		int nTargetStairs;
-		// STAIRS *nTargetStairList;
 		int nLightRadius;
 		bool bInCave;
 		bool bTransition;		// Keep track of whether or not we just transitioned to a new map.
@@ -57,6 +51,7 @@ class cPlayer
 		bool bLetsPlay;
 		int nOutsideY;
 		int nOutsideX;
+		bool bUsedStairs;		// Used to keep track of whether or not we took stairs to get outside.
 };
 
 

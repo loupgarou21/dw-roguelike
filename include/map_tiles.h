@@ -5,7 +5,7 @@
 
 struct TILE_TYPE
 {
-	int		nCharacter;				// Console character for this tile type
+	chtype	nCharacter;				// Console character for this tile type
 	short	nColorPair;				// Color code for this tile type
 	bool	bPassible;				// Set to true if you can walk on this tile
 	bool	bTeleport;				// Set to true if this tile will cause you to teleport
