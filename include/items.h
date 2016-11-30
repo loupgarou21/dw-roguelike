@@ -41,6 +41,7 @@ const int cnItemTorch				= 3;
 const int cnItemKey					= 6;
 const int cnItemErdricksTablet		= 10;
 const int cnItemFairyFlute			= 11;
+const int cnItemSilverHarp			= 12;
 const int cnStaffOfRain				= 13;
 const int cnItemStoneOfSunlight		= 14;
 const int cnItemRainbowDrop			= 17;
