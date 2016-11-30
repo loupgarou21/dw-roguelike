@@ -1,7 +1,7 @@
 #ifndef MAPS_H
 #define MAPS_H
 
-const int cnMaps 				= 14;
+const int cnMaps 				= 15;
 
 const int cnMapBrecconary 		= 0;
 const int cnMapCantlin			= 1;
@@ -17,6 +17,7 @@ const int cnMapSouthernShrine	= 10;
 const int cnMapSwampCave		= 11;
 const int cnMapTantegel			= 12;
 const int cnMapWorld			= 13;
+const int cnMapTantegelStart	= 14;
 
 const int cnMapNone 			= 0;
 

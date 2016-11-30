@@ -34,6 +34,7 @@
 #include "map_southern_shrine.h"
 #include "map_swamp_cave.h"
 #include "map_tantegel.h"
+#include "map_tantegel_start.h"
 #include "map_world.h"
 
 // Global Map Dimensions
@@ -61,11 +62,11 @@ cPlayer::cPlayer(void)
 		this->nInventory[i][cnItemCount] = 0;
 	}
 	this->nProgress = 0;
-	this->nTargetMap = cnMapTantegel;
+	this->nTargetMap = cnMapTantegelStart;
 	this->nTargetMapHeight = 0;
 	this->nTargetMapWidth = 0;
 	this->nTargetX = 2;
-	this->nTargetY = 47;
+	this->nTargetY = 3;
 	this->bTransition = false;
 	this->nLightRadius = 0;
 	this->bInCave = false;
@@ -296,7 +297,7 @@ int main(void)
 
 	int sKeyPress;
 
-	Player.nTargetMap = cnMapTantegel;
+	Player.nTargetMap = cnMapTantegelStart;
 
 	// I added the Transition() function in order to make loading a new location prettier,
 	// (well, less jarring anyway,) but loading the map before the rest of the screen made 
@@ -2096,6 +2097,8 @@ void InitializeMaps()
 	p_cMapList[cnMapTantegel] = &cMapTantegel;
 	LoadWorld();
 	p_cMapList[cnMapWorld] = &cMapWorld;
+	LoadTantegelStart();
+	p_cMapList[cnMapTantegelStart] = &cMapTantegelStart;
 
 	return;
 }
