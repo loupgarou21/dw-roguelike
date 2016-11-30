@@ -1597,6 +1597,7 @@ void SearchGround(WINDOW *wAlert, cPlayer *Player)
 	for( int i = 0; i < cMapGlobal.nChests; i++ )
 	{
 		if( y == cMapGlobal.sChestList[i].nPositionY && x == cMapGlobal.sChestList[i].nPositionX && cMapGlobal.sChestList[i].bExists )
+
 		{
 			nChestNumber = i;
 			bChestExists = true;
@@ -1776,6 +1777,7 @@ void TakeChest(WINDOW *wAlert, cPlayer *Player)
 	for( int i = 0; i < cMapGlobal.nChests; i++ )
 	{
 		if( y == cMapGlobal.sChestList[i].nPositionY && x == cMapGlobal.sChestList[i].nPositionX && cMapGlobal.sChestList[i].bExists )
+
 		{
 			nChestNumber = i;
 			bChestExists = true;
