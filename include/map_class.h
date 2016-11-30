@@ -1,6 +1,8 @@
 #ifndef MAP_CLASS_H
 #define MAP_CLASS_H
 
+#include "actor.h"
+#include "chests.h"
 #include "stairs.h"
 
 class cMap
@@ -8,8 +10,6 @@ class cMap
 public:
 	cMap();
 	~cMap();
-
-	void InitializeMap();
 
 	struct STAIRS
 	{
@@ -23,6 +23,7 @@ public:
 
 	struct CHEST
 	{
+		bool bExists;
 		int nItemType;
 		int nGoldMin;
 		int nGoldMax;
@@ -33,16 +34,16 @@ public:
 	struct ACTOR
 	{
 		bool bExists;			// Does this actor actually exist in this map?
-		int nInitialPositionX;	// Starting X position for the Actor
-		int nInitialPositionY; 	// Starting Y position for the Actor
-		int nPositionX;			// Current X position
-		int nPositionY;			// Current Y position
+		int nCostume;			// Determines the coloring of our actor
+		int nInitialPositionY;	// Starting X position for the Actor
+		int nInitialPositionX; 	// Starting Y position for the Actor
+		int nPositionY;			// Current X position
+		int nPositionX;			// Current Y position
 		int nMovementPattern;	// Determines how far an actor is allowed to move from their initial position
 								// 0 can't move at all, 1 can move up to one square from the initial position in any direction
 								// 2 can move two squares and so on.
 		bool bIsMerchant;		// Is the current user some sort of merchant?
 		int nConversation;		// Determines what script our actor is going to follow
-		int nCostume;			// Determines the coloring of our actor
 	};
 
 	int nMapHeight;
@@ -54,6 +55,7 @@ public:
 	ACTOR sActorList[cnMaxActors];
 	int nStairs;
 	STAIRS sStairList[cnMaxStairs];
+	bool bInCave;
 
 };
 
